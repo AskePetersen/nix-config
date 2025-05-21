@@ -25,6 +25,9 @@
   # services.xserver.libinput.enable = true;
 
   # hyprland.enable = true;
+  environment.sessionVariables = {
+	XDG_PICTURES_DIR = "$HOME";
+  };
 
   environment.systemPackages = with pkgs; [
     discord

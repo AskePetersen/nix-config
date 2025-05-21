@@ -2,7 +2,7 @@
 
 {
   imports = (
-    import ../modules/desktops ++ # enable when we want hyprland
+    # import ../modules/desktops ++ # enable when we want hyprland
     import ../modules/editors ++
     # import ../modules/hardware ++
     # import ../modules/programs ++
@@ -48,6 +48,7 @@
 
   # Enable the X11 windowing system.
   services = {
+	onedrive.enable = true;
     pulseaudio.enable = false;
     printing.enable = true;
     xserver = {
@@ -98,6 +99,10 @@
 
   # Install firefox.
   programs = {
+	nm-applet = {
+		enable = true;
+		indicator = true;
+	};
     firefox.enable = true;
     nixvim.enable = true;
 	hyprland = {
@@ -105,7 +110,17 @@
 	};
   };
 
+  fonts.packages = with pkgs; [
+    font-awesome # Icons
+  ];
+
   environment.systemPackages = with pkgs; [
+	hyprpaper
+	hypridle
+  	hyprlock
+	libnotify
+	swaynotificationcenter
+	hyprshot
 	nautilus
 	brightnessctl
 	libreoffice
@@ -114,6 +129,7 @@
 	wofi
 	kitty
 	xdg-desktop-portal-hyprland
+# 	network-manager-applet
   ];
 
 
