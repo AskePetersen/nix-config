@@ -1,7 +1,0 @@
-explore following packages:
-	- neotree
-	- telescope
-	- comment.nvim
-	- lualine.nvim
-	- which_key
-	- 
