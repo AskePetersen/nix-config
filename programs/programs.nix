@@ -1,4 +1,6 @@
-{ config, lib, pkgs, stable, inputs, vars, ... }:
+{config, lib, pkgs, hyprland, vars, host, ... }:
+with lib;
+with host;
 
 {
 	programs = {
@@ -10,6 +12,7 @@
 			enable = true;
 			indicator = true;
 		};
+		starship.enable = true;
 		hyprlock.enable = true;
 		nixvim.enable = true;
 		git.enable = true;

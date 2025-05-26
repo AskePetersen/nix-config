@@ -2,13 +2,8 @@
 
 {
   imports = (
-    # import ../modules/desktops ++ # enable when we want hyprland
-    import ../modules/editors ++
-    # import ../modules/hardware ++
-    # import ../modules/programs ++
-    # import ../modules/services ++
-    # import ../modules/theming ++
-    import ../modules/shell
+    import ../programs ++
+	import ../packages
   );
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -97,42 +92,10 @@
     };
   };
 
-  # Install firefox.
-  programs = {
-	nm-applet = {
-		enable = true;
-		indicator = true;
-	};
-    firefox.enable = true;
-    nixvim.enable = true;
-	hyprland = {
-		enable = true;
-	};
-  };
-
   fonts.packages = with pkgs; [
-    font-awesome # Icons
+  	pkgs.nerd-fonts.caskaydia-cove
+    # font-awesome # Icons
   ];
-
-  environment.systemPackages = with pkgs; [
-	hyprpaper
-	hypridle
-  	hyprlock
-	libnotify
-	swaynotificationcenter
-	hyprshot
-	nautilus
-	brightnessctl
-	libreoffice
-	hyprland
-	waybar
-	wofi
-	kitty
-	xdg-desktop-portal-hyprland
-# 	network-manager-applet
-  ];
-
-
   
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

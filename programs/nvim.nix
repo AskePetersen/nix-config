@@ -30,10 +30,13 @@ in
       (python3.withPackages (ps: with ps; [
         pip
       ]))
-    ];
-  };
+  ];
 
   programs.nixvim = {
+	colorschemes.catppuccin = {
+		enable = true;
+		settings.transparent_background = true;
+	};
     enableMan = false;
     viAlias = true;
     vimAlias = true;

@@ -28,13 +28,4 @@
   environment.sessionVariables = {
 	XDG_PICTURES_DIR = "$HOME";
   };
-
-  environment.systemPackages = with pkgs; [
-    discord
-    git
-    grub2
-    libsForQt5.breeze-grub
-    wget
-    # neovim
-  ];
 }
