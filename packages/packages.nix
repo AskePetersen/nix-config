@@ -3,10 +3,19 @@
 {
 
   environment.systemPackages = with pkgs; [
-  	starship
+  	texliveFull
+  	bitwarden-desktop
+  	zathura # vim pdf-viewer
+  	htop
+  	blueman # bluetooth
+  	thunderbird
+  	# bluez
+  	# fprintd # fingerscanning
+  	pavucontrol # sound control
+  	starship # terminal jizz
 	brightnessctl
-	grimblast # Screenshot
-	hyprcursor # Cursor
+	# grimblast # Screenshot
+	# hyprcursor # Cursor
 	hypridle
 	hyprland
 	hyprpaper # Wallpaper
@@ -15,7 +24,7 @@
 	libnotify
 	libreoffice
 	nautilus
-	nwg-look
+	nwg-look # change the look of hyprland?
 	swaynotificationcenter
 	waybar
 	wl-clipboard # Clipboard

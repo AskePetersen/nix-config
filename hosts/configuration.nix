@@ -20,6 +20,13 @@
     };
   };
 
+  hardware = {
+	  bluetooth = {
+		  enable = true;
+		  powerOnBoot = false;
+	  };
+  };
+
   time = {
     timeZone = "Europe/Copenhagen";
     hardwareClockInLocalTime = true;
@@ -43,7 +50,8 @@
 
   # Enable the X11 windowing system.
   services = {
-	onedrive.enable = true;
+	blueman.enable = true;
+	fprintd.enable = true;	
     pulseaudio.enable = false;
     printing.enable = true;
     xserver = {

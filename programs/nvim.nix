@@ -82,7 +82,37 @@ in
 			key = "<leader>e";
 			action = ":Ex<CR>";
 		}
-		{ # allows us to move lines up and down in visual mode with J and K
+		{
+			key = "<leader>cp";
+			action = ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>";
+		}
+		/* {  in order for our cursor to move with the line as we indent it we 
+		   must do >>^^
+			mode = "n";
+			key = "<S-tab>";
+			action = "<<^^";
+		}
+		{  in order for our cursor to move with the line as we indent it we 
+		   must do >>^^
+			mode = "n";
+			key = "<tab>";
+			action = ">>^^";
+		} */
+		{
+			mode = "v";
+			key = "<S-tab>";
+			action = "<gv";
+		}
+		{
+			mode = "v";
+			key = "<tab>";
+			action = ">gv";
+		}
+		{
+			key = "½";
+			action = ":split v<cr>";
+		}
+		{ # allows us to move lines up and down in visual mode with j and k
 			mode = "v";
 			key = "K";
 			action = ":m '>+1<CR>gv=gv"; 
@@ -90,7 +120,7 @@ in
 		{ # allows us to move lines up and down in visual mode with J and K
 			mode = "v";
 			key = "L";
-			action = ":m '>-2<CR>gv=gv"; 
+			action = ":m '<-2<CR>gv=gv"; 
 		}
 		{ # makes J ergonomic
 			key = "J";
@@ -176,23 +206,98 @@ in
 	];
 
 	plugins = {
-		harpoon = {
+		copilot-lua = {
 			enable = true;
+			settings = {
+				suggestions = {
+				enabled = true;
+				keymap.accept = "<M-l>";
+				};
+				panel = {
+					enabled = false;
+					auto_refresh = false;
+				};
+				filetypes.markdown = true;
+				# filetypes.pluginDefault.markdown = true;
+			};
 		};
+		#lua require("copilot.suggestion").toggle_auto_trigger()
+		
+		lualine.enable = true;
+		comment.enable = true;
+		treesitter.enable = true; # used for code highlighting
+		telescope.enable = true;
+		web-devicons.enable = true; # This is needed for telescope apparently
+		harpoon.enable = true;
+		fugitive.enable = true;
 	};
 
-  extraConfigLua = ''
-		local harpoon = require("harpoon")
-		harpoon:setup()
+    extraConfigLua = ''
 
-		
+		-- Telescope configs
+		-- These allows us to move up and down in normal mode during find_files
+		local actions = require("telescope.actions")
+		require("telescope").setup({
+		  defaults = {
+			mappings = {
+			  n = { -- normal mode
+				["k"] = actions.move_selection_next,
+				["l"] = actions.move_selection_previous,
+			  },
+			},
+		  },
+		})
+		local builtin = require('telescope.builtin')
+		vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+		vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+		vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+		vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+
+
+		-- Harpoon shit
+	  	local harpoon = require("harpoon")
+		harpoon:setup()
 		vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
 		vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-
 		vim.keymap.set("n", "<C-j>", function() harpoon:list():select(1) end)
 		vim.keymap.set("n", "<C-k>", function() harpoon:list():select(2) end)
 		vim.keymap.set("n", "<C-l>", function() harpoon:list():select(3) end)
 		vim.keymap.set("n", "<C-æ>", function() harpoon:list():select(4) end)
+
+
+		-- This is chatgpt shit, it sets up <leader>r to run the current file
+		-- It also figures out what command to run
+		function RunFile()
+		  local filetype = vim.bo.filetype
+		  local filename = vim.fn.expand("%")
+		  local cmd = ""
+
+		  if filetype == "python" then
+			cmd = "python3 " .. filename
+		  elseif filetype == "tex" then
+			local output_pdf = filename:gsub("%.tex$", ".pdf")
+			cmd = "xelatex " .. filename .. " && (xdg-open " .. output_pdf .. " &)"
+			-- For macOS, replace with: open <file>.pdf
+		  elseif filetype == "c" then
+			cmd = "gcc " .. filename .. " -o output && ./output"
+		  else
+			print("No run command defined for " .. filetype)
+			return
+		  end
+
+		  -- Check if terminal already exists
+		  if runner_bufnr and vim.api.nvim_buf_is_valid(runner_bufnr) then
+			vim.api.nvim_chan_send(vim.b.terminal_job_id, cmd .. "\n")
+		  else
+			vim.cmd("belowright split | terminal")
+			runner_bufnr = vim.api.nvim_get_current_buf()
+			vim.b.terminal_job_id = vim.b.terminal_job_id or vim.fn.jobstart("/bin/bash", {detach = true})
+			vim.api.nvim_chan_send(vim.b.terminal_job_id, cmd .. "\n")
+		  end
+		end
+
+		vim.keymap.set("n", "<leader>r", ":lua RunFile()<CR>")
+
   '';
   };
 

@@ -8,10 +8,11 @@ with host;
 			enable = true;
 			package = hyprland.packages.${pkgs.system}.hyprland;
 		};
-		nm-applet = {
-			enable = true;
-			indicator = true;
-		};
+		# nm-applet = {
+		# 	enable = true;
+		# 	indicator = true;
+		# };
+		thunderbird.enable = true;
 		starship.enable = true;
 		hyprlock.enable = true;
 		nixvim.enable = true;
