@@ -3,6 +3,7 @@
 {
 
   environment.systemPackages = with pkgs; [
+	catppuccin-cursors.frappeBlue
   	texliveFull
   	bitwarden-desktop
   	zathura # vim pdf-viewer
