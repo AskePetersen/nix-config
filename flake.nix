@@ -36,15 +36,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = inputs @ { self, nixpkgs, nixos-hardware, nixpkgs-stable, home-manager, nixvim, hyprland, ... }: # Function telling flake which inputs to use
+  outputs = inputs @ { self, nixpkgs, nixos-hardware, nixpkgs-stable, home-manager, home-manager-stable, nixvim, hyprland, ... }: # Function telling flake which inputs to use
     let
-	  system = "x86_64-linux";
       # Variables Used In Flake
       vars = {
         user = "aske";
         location = "$HOME/.setup";
+		terminal = "kitty";
         editor = "nvim";
       };
+	
     in {
 		nixosConfigurations = (
 			import ./hosts {
@@ -52,11 +53,12 @@
 				inherit inputs nixpkgs nixpkgs-stable nixos-hardware home-manager nixvim hyprland vars;
 			}
 		);
-		homeConfigurations.${vars.user} = home-manager.lib.homeManagerConfiguration {
-			inherit system;
-			homeDirectory = "/home/${vars.user}";
-			username = "${vars.user}";
-			configuration = import ./home.nix;
-		};
+
+		homeConfiguration = (
+			import ./nix {
+				inherit (nixpkgs) lib;
+				inherit inputs nixpkgs nixpkgs-stable home-manager vars;
+			}
+      	);
 	};
 }

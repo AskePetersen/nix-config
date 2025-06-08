@@ -50,6 +50,7 @@
 
   # Enable the X11 windowing system.
   services = {
+	onedrive.enable = true;
 	blueman.enable = true;
 	fprintd.enable = true;	
     pulseaudio.enable = false;
