@@ -243,7 +243,7 @@ with host;
 				  ];
 				};
 				input = {
-				  kb_layout = "dk";
+				  kb_layout = "dk", "us";
 				  # kb_layout=us,us
 				  # kb_variant=,dvorak
 				  # kb_options=caps:ctrl_modifier

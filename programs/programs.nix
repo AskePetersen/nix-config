@@ -4,6 +4,7 @@ with host;
 
 {
 	programs = {
+		steam.enable = false;
 		hyprland = {
 			enable = true;
 			package = hyprland.packages.${pkgs.system}.hyprland;

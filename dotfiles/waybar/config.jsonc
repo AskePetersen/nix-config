@@ -2,14 +2,14 @@
   "position": "top",
   "modules-left": ["hyprland/workspaces"],
   "modules-center": ["hyprland/window"],
-  "modules-right": ["temperature", "cpu", "bluetooth", "network", "pulseaudio", "battery", "clock"],
+  "modules-right": ["cpu", "bluetooth", "network", "pulseaudio", "battery", "clock"],
   "temperature": {
 	// "thermal-zone": 2,
 	// "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
 	"critical-threshold": 80,
 	// "format-critical": "{temperatureC}°C {icon}",
 	"format": "{icon} {temperatureC}°C",
-	"format-icons": ["", "", ""]
+	"format-icons": [""]
   },
   "cpu": {
     "format": "  {usage}%",

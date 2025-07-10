@@ -34,7 +34,7 @@
 
   # Select internationalisation properties.
   i18n = { 
-    defaultLocale = "en_DK.UTF-8";
+    defaultLocale = "en_GB.UTF-8";
     extraLocaleSettings = {
       LC_ADDRESS = "da_DK.UTF-8";
       LC_IDENTIFICATION = "da_DK.UTF-8";
@@ -44,25 +44,30 @@
       LC_NUMERIC = "da_DK.UTF-8";
       LC_PAPER = "da_DK.UTF-8";
       LC_TELEPHONE = "da_DK.UTF-8";
-      LC_TIME = "da_DK.UTF-8";
+      LC_TIME = "en_GB.UTF-8";
     };
   };
 
   # Enable the X11 windowing system.
   services = {
-	onedrive.enable = true;
+	gvfs.enable = true;
+	udisks2.enable = true; # used for USB devices
 	blueman.enable = true;
 	fprintd.enable = true;	
     pulseaudio.enable = false;
     printing.enable = true;
+	# onedrive = {
+	# 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
+	# 	monitor = true;
+	# };
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
       # desktopManager.gnome.enable = true;
-      xkb = {
-        layout = "dk";
-        variant = "nodeadkeys";
-      };
+      # xkb = {
+      #   layout = "dk";
+      #   variant = "nodeadkeys";
+      # };
     };
   };
 
@@ -72,7 +77,10 @@
   };
 
   # Enable sound with pipewire.
-  security.rtkit.enable = true;
+  security = {
+	  rtkit.enable = true;
+	  polkit.enable = true;
+  };
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -86,7 +94,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
    users.users.aske = {
     isNormalUser = true;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "plugdev" "networkmanager" "wheel" ];
     # packages = with pkgs; [
     #  thunderbird
     # ];
