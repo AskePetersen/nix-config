@@ -97,20 +97,35 @@
 			key = "½";
 			action = ":split v<cr>";
 		}
+		# {
+		# 	key = "J";
+		# 	action = "<Nop>";
+		# 	options = {
+		# 		noremap = true;
+		# 	};
+		# }
 		{ # allows us to move lines up and down in visual mode with j and k
-			mode = "v";
+			mode = "x";
 			key = "J";
 			action = ":m '>+1<CR>gv=gv"; 
+			options = {
+				silent = true;
+				noremap = true;
+			};
 		}
 		{ # allows us to move lines up and down in visual mode with J and K
-			mode = "v";
+			mode = "x";
 			key = "K";
 			action = ":m '<-2<CR>gv=gv"; 
+			options = {
+				silent = true;
+				noremap = true;
+			};
 		}
-		{ # makes J ergonomic
-			key = "J";
-			action = "mzJ`z"; 
-		}
+		# { # makes J ergonomic
+		# 	key = "J";
+		# 	action = "mzJ`z"; 
+		# }
 		{ # keeps us centered when we do page up and down
 			key = "<C-d>";
 			action = "<C-d>zz"; 
@@ -172,6 +187,9 @@
 				ts_ls.enable = true;
 			};
 		};
+		avante = {
+			enable = true;
+		};
 		# Autocomplete
 		cmp = {
 			enable = true;
@@ -198,7 +216,7 @@
 						if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
 							return
 						end
-							return { timeout_ms = 1000, lsp_fallback = true }, on_format
+							return { timeout_ms = 1000, lsp_fallback = true }
 						end
 				'';
 			};

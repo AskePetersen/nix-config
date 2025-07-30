@@ -22,6 +22,6 @@
 		home.file.".config/wofi/style.css".source = ../dotfiles/wofi/style.css;
 
 		# tmux
-		home.file."config/tmux.conf".source = ../dotfiles/tmux/tmux.conf;
+		home.file.".tmux.conf".source = ../dotfiles/tmux/tmux.conf;
 	};
 }

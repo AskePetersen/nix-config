@@ -3,7 +3,7 @@
 
 {
 	environment.systemPackages = with pkgs; [
-  	
+		pylint  	
 		tmux
 		nixpkgs-fmt
 		prettierd
