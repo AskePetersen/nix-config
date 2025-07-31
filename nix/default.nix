@@ -9,7 +9,7 @@ in
     inherit pkgs;
     extraSpecialArgs = { inherit inputs nixgl vars; };
     modules = [
-      ./pacman.nix
+      # ./pacman.nix
       {
         home = {
           username = "${vars.user}";

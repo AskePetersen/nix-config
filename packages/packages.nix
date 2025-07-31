@@ -4,7 +4,7 @@
 {
 	environment.systemPackages = with pkgs; [
 		pylint  	
-		tmux
+		# tmux
 		nixpkgs-fmt
 		prettierd
 		black
