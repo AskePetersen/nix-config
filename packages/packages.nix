@@ -2,16 +2,22 @@
 
 
 {
+	virtualisation.docker.enable = true;
 	environment.systemPackages = with pkgs; [
-		pylint  	
+    google-chrome
+    dbeaver-bin
+    glow # Used for reading markdown files
+		slack
+		pylint
 		# tmux
 		nixpkgs-fmt
 		prettierd
 		black
 		isort
-		eslint_d
+		eslint
 		qalculate-qt
-		nodejs_24
+		nest-cli
+		nodejs_20
 		nodePackages.typescript
 		nodePackages.typescript-language-server
 # python313

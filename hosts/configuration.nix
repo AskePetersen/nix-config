@@ -21,6 +21,7 @@
   };
 
   hardware = {
+	  enableAllFirmware = true;
 	  bluetooth = {
 		  enable = true;
 		  powerOnBoot = false;
@@ -50,10 +51,10 @@
 
   # Enable the X11 windowing system.
   services = {
-	gvfs.enable = true;
-	udisks2.enable = true; # used for USB devices
-	blueman.enable = true;
-	fprintd.enable = true;	
+    gvfs.enable = true;
+    udisks2.enable = true; # used for USB devices
+    blueman.enable = true;
+    fprintd.enable = true;	
     pulseaudio.enable = false;
     printing.enable = true;
 	# onedrive = {
@@ -63,6 +64,7 @@
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
+      videoDrivers = [ "displaylink" "modesetting" ];
       # desktopManager.gnome.enable = true;
       # xkb = {
       #   layout = "dk";

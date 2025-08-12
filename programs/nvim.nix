@@ -10,14 +10,17 @@
   ];
 
   programs.nixvim = {
-	colorschemes.catppuccin = {
-		enable = true;
-		settings.transparent_background = true;
-	};
+    colorschemes.catppuccin = {
+      enable = true;
+      settings.transparent_background = true;
+    };
     enableMan = false;
     viAlias = true;
     vimAlias = true;
     opts = {
+      expandtab = false;
+      softtabstop = 4;
+      smartindent = true;
       number = true;
       relativenumber = true;
       shiftwidth = 4;
@@ -26,20 +29,19 @@
       fileencoding = "utf-8";
       cursorline = false;
       spelllang = [ "en" ];
-	  smartindent = true;
-	  wrap = false;
-	  swapfile = true;
-	  backup = false;
-	  undofile = true;
-	  hlsearch = false;
-	  incsearch = true;
-	  termguicolors = true;
-	  scrolloff = 8;
-	  signcolumn = "yes";
-	  breakindent = true;
-	  updatetime = 50;
-	  colorcolumn = "80";
-	  # textwidth = 80;
+      wrap = false;
+      swapfile = true;
+      backup = false;
+      undofile = true;
+      hlsearch = false;
+      incsearch = true;
+      termguicolors = true;
+      scrolloff = 8;
+      signcolumn = "yes";
+      breakindent = true;
+      updatetime = 50;
+      colorcolumn = "80";
+      # textwidth = 80;
     };
 
     clipboard = {
@@ -47,253 +49,320 @@
       providers.wl-copy.enable = true;
     };
 
-	diagnostic.settings = {
-		virtual_text = true;
-		signs = true;
-		underline = true;
-		update_in_insert = true;
-	};
+    diagnostic.settings = {
+      virtual_text = true;
+      signs = true;
+      underline = true;
+      update_in_insert = true;
+    };
 
-	globals = {
-		mapleader = " ";
-		maplocalleader = " ";
-	};
+    globals = {
+      mapleader = " ";
+      maplocalleader = " ";
+    };
 
 	
 
-	keymaps = 
-	[
-		{
-			key = "<leader>e";
-			action = ":Ex<CR>";
-		}
-		{
-			key = "<leader>cp";
-			action = ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>";
-		}
-		/* {  in order for our cursor to move with the line as we indent it we 
-		   must do >>^^
-			mode = "n";
-			key = "<S-tab>";
-			action = "<<^^";
-		}
-		{  in order for our cursor to move with the line as we indent it we 
-		   must do >>^^
-			mode = "n";
-			key = "<tab>";
-			action = ">>^^";
-		} */
-		{
-			mode = "v";
-			key = "<S-tab>";
-			action = "<gv";
-		}
-		{
-			mode = "v";
-			key = "<tab>";
-			action = ">gv";
-		}
-		{
-			key = "½";
-			action = ":split v<cr>";
-		}
-		# {
-		# 	key = "J";
-		# 	action = "<Nop>";
-		# 	options = {
-		# 		noremap = true;
-		# 	};
-		# }
-		{ # allows us to move lines up and down in visual mode with j and k
-			mode = "x";
-			key = "J";
-			action = ":m '>+1<CR>gv=gv"; 
-			options = {
-				silent = true;
-				noremap = true;
-			};
-		}
-		{ # allows us to move lines up and down in visual mode with J and K
-			mode = "x";
-			key = "K";
-			action = ":m '<-2<CR>gv=gv"; 
-			options = {
-				silent = true;
-				noremap = true;
-			};
-		}
-		# { # makes J ergonomic
-		# 	key = "J";
-		# 	action = "mzJ`z"; 
-		# }
-		{ # keeps us centered when we do page up and down
-			key = "<C-d>";
-			action = "<C-d>zz"; 
-		}
-		{ # keeps us centered when we do page up and down
-			key = "<c-u>";
-			action = "<c-u>zz"; 
-		}
-		{ # keeps us centered when we search
-			key = "N";
-			action = "Nzzzv"; 
-		}
-		{ # keeps us centered when we search
-			key = "N";
-			action = "nzzzv"; 
-		}
-		{ # apparently this makes me a n00b
-			key = "<C-c>";
-			action = "<Esc>l"; 
-			mode = "i";
-		}
-		{ # search and replace current word
-			key = "<leader>s";
-			action = "[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]"; 
-		}
-		{ # search and replace current word and down
-			key = "<leader>sd";
-			action = "[[:.,$s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]"; 
-		}
-		{ # search and replace current word and up
-			key = "<leader>su";
-			action = "[[:0,.$s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]"; 
-		}
-		{ 
-			key = "<leader>w";
-			action = ":w<CR>"; 
-		}
-		{ 
-			key = "<leader>q";
-			action = ":q<CR>"; 
-		}
-		{
-			mode = "i";
-			key = "<C-k>";
-			action = "<C-o>O";
-		}
-		{
-			mode = "i";
-			key = "<C-l>";
-			action = "<Del>";
-		}
-	];
+    keymaps = 
+    [
+      {
+        key = "<leader>e";
+        action = ":Ex<CR>";
+      }
+      {
+        key = "<leader>cp";
+        action = ":lua require('copilot.suggestion').toggle_auto_trigger()<CR>";
+      }
+      {
+        mode = "n";
+        key = "gd";
+        action = "<CMD>lua vim.lsp.buf.hover()<CR>";
+        options.desc = "Show lsp definition in floating window";
+      }
+      {
+        mode = "n";
+        key = "gD";
+        action = "<CMD>lua vim.lsp.buf.definition()<CR>";
+        options.desc = "Load lsp definition in new buffer";
+      }
+      {
+        mode = "n";
+        key = "gr";
+        action = "<CMD>lua vim.lsp.buf.references()<CR>";
+        options.desc = "Show lsp references";
+      }
+      {
+        mode = "n";
+        key = "ge";
+        action = "<CMD>lua vim.diagnostic.open_float()<CR>";
+        options.desc = "Show lsp diagnostic in floating window";
+      }
+      {
+        mode = "v";
+        key = "<S-tab>";
+        action = "<gv";
+      }
+      {
+        mode = "v";
+        key = "<tab>";
+        action = ">gv";
+      }
+      {
+        key = "½";
+        action = ":split v<cr>";
+      }
+      { # allows us to move lines up and down in visual mode with j and k
+        mode = "x";
+        key = "J";
+        action = ":m '>+1<CR>gv=gv"; 
+        options = {
+          silent = true;
+          noremap = true;
+        };
+      }
+      { # allows us to move lines up and down in visual mode with J and K
+        mode = "x";
+        key = "K";
+        action = ":m '<-2<CR>gv=gv"; 
+        options = {
+          silent = true;
+          noremap = true;
+        };
+      }
+      # { # makes J ergonomic
+      # 	key = "J";
+      # 	action = "mzJ`z"; 
+      # }
+      { # keeps us centered when we do page up and down
+        key = "<C-d>";
+        action = "<C-d>zz"; 
+      }
+      { # keeps us centered when we do page up and down
+        key = "<c-u>";
+        action = "<c-u>zz"; 
+      }
+      { # keeps us centered when we search
+        key = "N";
+        action = "Nzzzv"; 
+      }
+      { # keeps us centered when we search
+        key = "N";
+        action = "nzzzv"; 
+      }
+      { # apparently this makes me a n00b
+        key = "<C-c>";
+        action = "<Esc>l"; 
+        mode = "i";
+      }
+      { # search and replace current word
+        key = "<leader>s";
+        action = "[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]"; 
+      }
+      { # search and replace current word and down
+        key = "<leader>sd";
+        action = "[[:.,$s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]"; 
+      }
+      { # search and replace current word and up
+        key = "<leader>su";
+        action = "[[:0,.$s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]]"; 
+      }
+      { 
+        key = "<leader>w";
+        action = ":w<CR>"; 
+      }
+      { 
+        key = "<leader>q";
+        action = ":q<CR>"; 
+      }
+      {
+        mode = "i";
+        key = "<C-k>";
+        action = "<C-o>O";
+      }
+      {
+        mode = "i";
+        key = "<C-l>";
+        action = "<Del>";
+      }
+      {
+        key = "<leader>n";
+        action = "<CMD>Neotree toggle<CR>";
+        options.desc = "Toggle NeoTree";
+      }
+      {
+        key = "<leader>rv";
+        action = "<CMD>Neotree reveal<CR>";
+        options.desc = "Reveal NeoTree";
+      }
+      {
+        mode = "n";
+        key = "<leader>gg";
+        action = "<CMD>:LazyGit<CR>";
+        options.desc = "Lazygit open";
+      }
+    ];
 
-	plugins = {
-		# Red lines and stuff
-		lsp = {
-			enable = true;
-			servers = {
-				ts_ls.enable = true;
-			};
-		};
-		avante = {
-			enable = true;
-		};
-		# Autocomplete
-		cmp = {
-			enable = true;
-			autoEnableSources = true;
-			settings = { 
-				sources = [ 
-					{ name = "nvim_lsp"; }
-					{ name = "path"; }
-					{ name = "buffer"; }
-				];
-			};
-		};
-		conform-nvim = {
-			enable = true;
-			settings = {
-				formatters_by_ft = {
-					typescript = [ "prettierd" ];
-					javascript = [ "prettierd" ];
-					python = [ "isort" "black" ];
-					nix = [ "nixpkgs-fmt" ];
-				};
-				format_on_save = ''
-					function(bufnr)
-						if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-							return
-						end
-							return { timeout_ms = 1000, lsp_fallback = true }
-						end
-				'';
-			};
-		};
-		lint = {
-			enable = true;
-			lintersByFt = {
-				javascript = [ "eslint_d" ];
-				typescript = [ "eslint_d" ];
-				python = [ "pylint" ];
-			};
-		};
-		
-		toggleterm = {
-			enable = true;
-			settings = {
-				autoScroll = true;
-				closeOnExit = true;
-				direction = "horizontal";
-				persistMode = true;
-				startInInsert = true;
-				open_mapping = "[[<C-t>]]";
-			};
-		};
+    plugins = {
+      # Red lines and stuff
+      indent-blankline = {
+        enable = true;
+        settings = {
+            scope.enabled = false;
+        # indent.highlight = "ibl-lines";
+        };
+      };
+      # The sweet sweet coconut oil LSP
+      lsp = {
+        enable = true;
+        servers = {
+          ts_ls.enable = true;
+          pyright.enable = true;
+        };
+      };
+      # AI - at some point when i get an api key
+      avante = {
+        enable = true;
+      };
+      # Autocomplete
+      cmp = {
+        enable = true;
+        autoEnableSources = true;
+        settings = { 
+          sources = [ 
+            { name = "nvim_lsp"; }
+            { name = "path"; }
+            { name = "buffer"; }
+          ];
+        };
+      };
+      # View a file explorer
+      neo-tree = {
+        enable = true;
+        window.width = 35;
+        closeIfLastWindow = true;
+        extraOptions = {
+          filesystem = {
+            filtered_items = {
+              visible = true;
+            };
+          };
+        };
+      };
+      # Linters for neovim
+      /* conform-nvim = {
+        enable = true;
+        settings = {
+          formatters_by_ft = {
+            typescript = [ "prettierd" ];
+            javascript = [ "prettierd" ];
+            python = [ "isort" "black" ];
+            nix = [ "nixpkgs-fmt" ];
+          };
+          format_on_save = ''
+            function(bufnr)
+              if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+                return
+              end
+                return { timeout_ms = 1000, lsp_fallback = true }
+              end
+          '';
+        };
+      };
+      lint = {
+        enable = true;
+        lintersByFt = {
+          javascript = [ "eslint" ];
+          typescript = [ "eslint" ];
+          python = [ "pylint" ];
+        };
+      }; */
+      
+      toggleterm = {
+        enable = true;
+        settings = {
+          autoScroll = true;
+          closeOnExit = true;
+          direction = "horizontal";
+          persistMode = true;
+          startInInsert = true;
+          open_mapping = "[[<C-t>]]";
+        };
+      };
 
-		copilot-lua = {
-			enable = true;
-			settings = {
-				suggestions = {
-				enabled = true;
-				keymap.accept = "<M-l>";
-				};
-				panel = {
-					enabled = false;
-					auto_refresh = false;
-				};
-				filetypes.markdown = true;
-				# filetypes.pluginDefault.markdown = true;
-			};
-		};
-		
-		telescope = {
-			enable = true;
-			settings = {
-				pickers.find_files = {
-					hidden = true;
-				};
-			};
-			keymaps = {
-				"<leader>ff" = {
-					action = "find_files";
-					options = {
-						desc = "Find File";
-					};
-				};
-				"<leader>fg" = {
-					action = "live_grep";
-					options = {
-						desc = "Find Via Grep";
-					};
-				};
-				"<leader>fb" = {
-					action = "buffers";
-					options = {
-						desc = "Find Buffers";
-					};
-				};
-			};
-		};
-		nvim-autopairs.enable = true;
-		lualine.enable = true;
-		comment.enable = true;
-		treesitter.enable = true; # used for code highlighting
-		web-devicons.enable = true; # This is needed for telescope apparently
-		harpoon.enable = true;
-		fugitive.enable = true;
-	};
+      copilot-lua = {
+        enable = true;
+        settings = {
+          suggestions = {
+          enabled = true;
+          keymap.accept = "<M-l>";
+          };
+          panel = {
+            enabled = false;
+            auto_refresh = false;
+          };
+          filetypes.markdown = true;
+          # filetypes.pluginDefault.markdown = true;
+        };
+      };
+      lazygit.enable = true;
+      fugitive.enable = true;
+      gitsigns = {
+        enable = true;
+        settings = {
+          signs = {
+            add = { text = "+"; };
+            change = { text = "~"; };
+            delete = { text = "-"; };
+            topdelete = { text = "-"; };
+            changedelete = { text = "~"; };
+            untracked = { text = "x"; };
+          };
+          signs_staged = {
+            add = { text = "+"; };
+            change = { text = "~"; };
+            delete = { text = "-"; };
+            topdelete = { text = "-"; };
+            changedelete = { text = "~"; };
+            untracked = { text = "x"; };
+          };
+        };
+      };
+      
+      telescope = {
+        enable = true;
+        settings = {
+          pickers.find_files = {
+            hidden = true;
+          };
+        };
+        keymaps = {
+          "<leader>ff" = {
+            action = "find_files";
+            options = {
+              desc = "Find File";
+            };
+          };
+          "<leader>fg" = {
+            action = "live_grep";
+            options = {
+              desc = "Find Via Grep";
+            };
+          };
+          "<leader>fb" = {
+            action = "buffers";
+            options = {
+              desc = "Find Buffers";
+            };
+          };
+        };
+      };
+      nvim-autopairs.enable = true;
+      lualine.enable = true;
+      comment.enable = true;
+      treesitter.enable = true; # used for code highlighting
+      web-devicons.enable = true; # This is needed for telescope apparently
+      harpoon.enable = true;
+    };
 
     extraConfigLua = ''
 		-- Textwrap 
@@ -308,6 +377,9 @@
 			vim.opt_local.list = false
 		  end,
 		})
+
+		-- Random keybindings
+		vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition" })
 
 		-- Harpoon shit
 	  	local harpoon = require("harpoon")

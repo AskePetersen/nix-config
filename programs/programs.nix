@@ -20,4 +20,5 @@ with host;
 		git.enable = true;
 		firefox.enable = true;
 	};
+  zramSwap.enable = true;
 }

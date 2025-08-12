@@ -6,21 +6,32 @@
   ];
   # Bootloader.
   boot = {
+    # kernel.sysrq = 1;
+    extraModulePackages = [ config.boot.kernelPackages.evdi ];
+    kernelModules = [ "evdi" ];
     loader =  {
       systemd-boot.enable = false;
       efi.canTouchEfiVariables = true;
       grub = {
         efiSupport = true;
-	enable = true;
-	devices = [ "nodev" ];
-	configurationLimit = 10;
-	useOSProber = true;
-	gfxmodeEfi = "1920x1080";
-	# theme = "/home/aske/flake/grub-themes/vimix";
+      enable = true;
+      devices = [ "nodev" ];
+      configurationLimit = 10;
+      useOSProber = true;
+      gfxmodeEfi = "1920x1080";
       };
     };
   };
+  systemd.watchdog = {
+    rebootTime = "60s";
+    runtimeTime = "60s";
+  };
 
+    # watchdogd = {
+    #   enable = true;
+    #   runtimeTime = "60s";
+    #   rebootTime = 10;
+    # };
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
