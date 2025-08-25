@@ -8,16 +8,17 @@
     dbeaver-bin
     glow # Used for reading markdown files
 		slack
+		mysql84 # used for dbeaver 
 		pylint
 		# tmux
 		nixpkgs-fmt
-		prettierd
 		black
 		isort
 		eslint
 		qalculate-qt
 		nest-cli
 		nodejs_20
+		nodePackages.prettier
 		nodePackages.typescript
 		nodePackages.typescript-language-server
 # python313

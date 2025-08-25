@@ -33,8 +33,8 @@
       swapfile = true;
       backup = false;
       undofile = true;
-      hlsearch = false;
-      incsearch = true;
+      hlsearch = true;
+      incsearch = false; # Neovim jumps to the first match immediately
       termguicolors = true;
       scrolloff = 8;
       signcolumn = "yes";
@@ -133,6 +133,14 @@
       # 	key = "J";
       # 	action = "mzJ`z"; 
       # }
+      { # keeps us centered when we do jump back
+        key = "<C-o>";
+        action = "<C-o>zz"; 
+      }
+      { # keeps us centered when we do jump ahead
+        key = "<C-i>";
+        action = "<C-i>zz"; 
+      }
       { # keeps us centered when we do page up and down
         key = "<C-d>";
         action = "<C-d>zz"; 
@@ -146,7 +154,7 @@
         action = "Nzzzv"; 
       }
       { # keeps us centered when we search
-        key = "N";
+        key = "n";
         action = "nzzzv"; 
       }
       { # apparently this makes me a n00b
@@ -156,15 +164,15 @@
       }
       { # search and replace current word
         key = "<leader>s";
-        action = ":%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>"; 
+        action = ":%s/C-r><C-w/<C-r><C-w>/gI<Left><Left><Left>"; 
       }
       { # search and replace current word and down
         key = "<leader>sd";
-        action = ":.,$s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>"; 
+        action = ":.,$s/<C-r><C-w/<C-r><C-w>/gI<Left><Left><Left>"; 
       }
       { # search and replace current word and up
         key = "<leader>su";
-        action = ":0,.$s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>"; 
+        action = ":0,.$s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>"; 
       }
       { 
         key = "<leader>w";
@@ -249,25 +257,25 @@
         };
       };
       # Linters for neovim
-      /* conform-nvim = {
-        enable = true;
-        settings = {
-          formatters_by_ft = {
-            typescript = [ "prettierd" ];
-            javascript = [ "prettierd" ];
-            python = [ "isort" "black" ];
-            nix = [ "nixpkgs-fmt" ];
-          };
-          format_on_save = ''
-            function(bufnr)
-              if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-                return
-              end
-                return { timeout_ms = 1000, lsp_fallback = true }
-              end
-          '';
-        };
-      };
+      # conform-nvim = {
+      #   enable = true;
+      #   settings = {
+      #     formatters_by_ft = {
+      #       typescript = [ "prettier" ];
+      #       javascript = [ "prettier" ];
+      #       python = [ "isort" "black" ];
+      #       nix = [ "nixpkgs-fmt" ];
+      #     };
+      #     format_on_save = ''
+      #       function(bufnr)
+      #         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+      #           return
+      #         end
+      #           return { timeout_ms = 1000, lsp_fallback = true }
+      #         end
+      #     '';
+      #   };
+      # };
       lint = {
         enable = true;
         lintersByFt = {
@@ -275,7 +283,7 @@
           typescript = [ "eslint" ];
           python = [ "pylint" ];
         };
-      }; */
+      };
       
       /* toggleterm = {
         enable = true;
@@ -292,9 +300,10 @@
       copilot-lua = {
         enable = true;
         settings = {
+			panel.enable = false; # don't show suggestions like cmp does.
           suggestions = {
-          enabled = true;
-          keymap.accept = "<M-l>";
+			  enabled = true;
+			  keymap.accept = "<M-l>";
           };
           panel = {
             enabled = false;
