@@ -24,7 +24,7 @@
 	  enableAllFirmware = true;
 	  bluetooth = {
 		  enable = true;
-		  powerOnBoot = false;
+		  powerOnBoot = true;
 	  };
   };
 
