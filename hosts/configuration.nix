@@ -21,6 +21,12 @@
   };
 
   hardware = {
+	  graphics = {
+			# opengl used for hardware acceleration
+			enable = true;
+			# driSupport = true;
+			# driSupport32Bit = true;
+	  };
 	  enableAllFirmware = true;
 	  bluetooth = {
 		  enable = true;
@@ -61,10 +67,17 @@
 	# 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
 	# 	monitor = true;
 	# };
+	displayManager = {
+		sessionPackages = [ pkgs.hyprland ];
+		gdm.enable = true;
+	};
     xserver = {
       enable = true;
-      displayManager.gdm.enable = true;
-      videoDrivers = [ "displaylink" "modesetting" ];
+   #    displayManager = {
+		 #  gdm.enable = true;
+	  # };
+      # videoDrivers = [ "displaylink" "modesetting" ];
+      videoDrivers = [ "modesetting" ];
       # desktopManager.gnome.enable = true;
       # xkb = {
       #   layout = "dk";
@@ -90,8 +103,16 @@
     pulse.enable = true;
     # If you want to use JACK applications, uncomment this
     #jack.enable = true;
-
   };
+
+	xdg.portal = {
+		enable = true;
+		wlr.enable = true;
+		extraPortals = with pkgs; [
+			xdg-desktop-portal-hyprland
+			xdg-desktop-portal-gtk
+		];
+	};
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
    users.users.aske = {
@@ -122,6 +143,8 @@
   environment.shellAliases = { vim = "nvim"; };
 
   nix = {
+	# substitue = true;
+	# builders-use-substitutes = true;
     settings.auto-optimise-store = true;
     gc = {
       automatic = true;

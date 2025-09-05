@@ -4,9 +4,11 @@
 {
 	virtualisation.docker.enable = true;
 	environment.systemPackages = with pkgs; [
-    google-chrome
-    dbeaver-bin
-    glow # Used for reading markdown files
+		mesa # used for some hyprland conf
+		libdrm # used for some hyprland conf
+		google-chrome
+		dbeaver-bin
+		glow # Used for reading markdown files
 		slack
 		mysql84 # used for dbeaver 
 		pylint
@@ -40,7 +42,7 @@
 # grimblast # Screenshot
 # hyprcursor # Cursor
 		hypridle
-		hyprland
+		# hyprland
 		hyprpaper # Wallpaper
 		hyprshot
 		kitty
@@ -55,7 +57,7 @@
 		wl-clipboard # Clipboard
 		wlr-randr # Monitor Settings
 		wofi
-		xdg-desktop-portal-hyprland
+		# xdg-desktop-portal-hyprland
 		xwayland # X session
 		hyprlock
 		discord

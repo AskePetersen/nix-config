@@ -7,8 +7,8 @@
   # Bootloader.
   boot = {
     # kernel.sysrq = 1;
-    extraModulePackages = [ config.boot.kernelPackages.evdi ];
-    kernelModules = [ "evdi" ];
+    # extraModulePackages = [ config.boot.kernelPackages.evdi ];
+    # kernelModules = [ "evdi" ];
     loader =  {
       systemd-boot.enable = false;
       efi.canTouchEfiVariables = true;
@@ -22,10 +22,15 @@
       };
     };
   };
-  systemd.watchdog = {
-    rebootTime = "60s";
-    runtimeTime = "60s";
-  };
+  # systemd.watchdog = {
+  #   rebootTime = "60s";
+  #   runtimeTime = "60s";
+  # };
+
+	systemd.settings.Manager = {
+		RebootWatchdogSec = "60";
+		RuntimeWatchdogSec = "60";
+	};
 
     # watchdogd = {
     #   enable = true;
@@ -40,5 +45,8 @@
 	XDG_PICTURES_DIR = "$HOME";
 	EDITOR = "nvim";
 	VISUAL = "nvim";
+	# Wayland / Hyprland specific variables
+	NIXOS_OZONE_WL = "1";
+	WLR_NO_HARDWARE_CURSORS = "1";
   };
 }
