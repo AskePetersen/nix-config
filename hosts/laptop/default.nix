@@ -38,5 +38,7 @@
   # hyprland.enable = true;
   environment.sessionVariables = {
 	XDG_PICTURES_DIR = "$HOME";
+	EDITOR = "nvim";
+	VISUAL = "nvim";
   };
 }
