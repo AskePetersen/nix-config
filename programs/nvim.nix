@@ -165,15 +165,15 @@
       }
       { # search and replace current word
         key = "<leader>s";
-        action = ":%s/C-r><C-w/<C-r><C-w>/gI<Left><Left><Left>"; 
+        action = ":%s/<C-r><C-w>//gI<Left><Left><Left>"; 
       }
       { # search and replace current word and down
         key = "<leader>sd";
-        action = ":.,$s/<C-r><C-w/<C-r><C-w>/gI<Left><Left><Left>"; 
+        action = ":.,$s/<C-r><C-w>//gI<Left><Left><Left>"; 
       }
       { # search and replace current word and up
         key = "<leader>su";
-        action = ":0,.$s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>"; 
+        action = ":0,.$s/<C-r><C-w>//gI<Left><Left><Left>"; 
       }
       { 
         key = "<leader>w";
