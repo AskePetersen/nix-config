@@ -224,9 +224,9 @@
         };
       };
       # AI - at some point when i get an api key
-      avante = {
-        enable = true;
-      };
+      # avante = {
+      #   enable = true;
+      # };
       # Autocomplete
       cmp = {
         enable = true;
