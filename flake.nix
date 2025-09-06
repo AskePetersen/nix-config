@@ -2,12 +2,14 @@
   description = "Nixos config flake";
 
 	nixConfig = {
+		# Online caches to download stuff from, shouldn't take up space on ssd
 	  extra-substituters = [
 		"https://cache.nixos.org"
 		"https://nix-community.cachix.org"
 		"https://hyprland.cachix.org"
 		"https://nixpkgs-unfree.cachix.org"
 	  ];
+	  # I need to pass the public keys to these online caches for nix to trust them
 	  extra-trusted-public-keys = [
 		"cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
 		"nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
@@ -27,18 +29,9 @@
     };
 
     home-manager-stable = {
-      url = "github:nix-community/home-manager/release-24.11";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
-
-    # hyprland = {
-    #   url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
-    # };
-	#
-	# hyprland = {
-	#   url = "github:hyprwm/Hyprland/v0.44.1"; # Replace with desired version
-	#   inputs.nixpkgs.follows = "nixpkgs";
-	# };
 
     nixvim = {
       url = "github:nix-community/nixvim";
