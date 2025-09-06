@@ -50,6 +50,7 @@
 			providers.wl-copy.enable = true;
 		};
 
+		# Red squiggly lines
 		diagnostic.settings = {
 			virtual_text = true;
 			signs = true;
@@ -190,6 +191,18 @@
 				action = "<C-o>O";
 			}
 			{
+# We want to disable default C-n in order to use nvim-cmp instead
+				mode = "i";
+				key = "<C-n>";
+				action = "<Nop>";
+			}
+			{
+# We want to disable default C-n in order to use nvim-cmp instead
+				mode = "i";
+				key = "<C-p>";
+				action = "<Nop>";
+			}
+			{
 				mode = "i";
 				key = "<C-l>";
 				action = "<Del>";
@@ -208,11 +221,11 @@
 		];
 
 		plugins = {
-			# Red lines and stuff
+			# vertical lines when indenting
 			indent-blankline = {
 				enable = true;
 				settings = {
-						scope.enabled = false;
+					scope.enabled = false;
 				# indent.highlight = "ibl-lines";
 				};
 			};
@@ -238,6 +251,10 @@
 						{ name = "path"; }
 						{ name = "buffer"; }
 					];
+					mapping = {
+						"<C-n>" = "cmp.mapping.select_next_item()";
+						"<C-p>" = "cmp.mapping.select_prev_item()";
+					};
 				};
 			};
 			# View a file explorer
