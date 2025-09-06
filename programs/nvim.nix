@@ -312,22 +312,22 @@
 				};
 			}; */
 
-			# copilot-lua = {
-			# 	enable = true;
-			# 	settings = {
-			# 		panel.enable = false; # don't show suggestions like cmp does.
-			# 			suggestions = {
-			# 				enabled = true;
-			# 				keymap.accept = "<M-l>";
-			# 			};
-			# 		panel = {
-			# 			enabled = false;
-			# 			auto_refresh = false;
-			# 		};
-			# 		filetypes.markdown = true;
-			# 		# filetypes.pluginDefault.markdown = true;
-			# 	};
-			# };
+			copilot-lua = {
+				enable = true;
+				settings = {
+					panel.enable = false; # don't show suggestions like cmp does.
+						suggestions = {
+							enabled = true;
+							keymap.accept = "<M-l>";
+						};
+					panel = {
+						enabled = false;
+						auto_refresh = false;
+					};
+					filetypes.markdown = true;
+					# filetypes.pluginDefault.markdown = true;
+				};
+			};
 			lazygit.enable = true;
 			fugitive.enable = true;
 			gitsigns = {
