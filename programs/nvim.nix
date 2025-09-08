@@ -208,6 +208,12 @@
 				action = "<Del>";
 			}
 			{
+# Display current file in bufer?
+				mode = "n";
+				key = "<leader>fp";
+				action = "<CMD>:echo expand('%:p')<CR>";
+			}
+			{
 				key = "<leader>rv";
 				action = "<CMD>Neotree reveal<CR>";
 				options.desc = "Reveal NeoTree";
