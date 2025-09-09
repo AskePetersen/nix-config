@@ -4,6 +4,7 @@
 {
 	virtualisation.docker.enable = true;
 	environment.systemPackages = with pkgs; [
+		ngrok
 		sshfs # Litteraly best tool ever for remote editing
 		mesa # used for some hyprland conf
 		libdrm # used for some hyprland conf

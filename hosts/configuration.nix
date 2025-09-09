@@ -83,7 +83,13 @@
       #   layout = "dk";
       #   variant = "nodeadkeys";
       # };
-    };
+	};
+	tlp.settings = {
+	  BAT0 = {
+		  START_CHARGE_THRESH_BAT0 = 60;
+		  STOP_CHARGE_THRESH_BAT0 = 80;
+	  };
+	};
   };
 
   console = {
