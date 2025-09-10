@@ -6,9 +6,6 @@
   ];
   # Bootloader.
   boot = {
-    # kernel.sysrq = 1;
-    # extraModulePackages = [ config.boot.kernelPackages.evdi ];
-    # kernelModules = [ "evdi" ];
     loader =  {
       systemd-boot.enable = false;
       efi.canTouchEfiVariables = true;
@@ -22,24 +19,29 @@
       };
     };
   };
-  # systemd.watchdog = {
-  #   rebootTime = "60s";
-  #   runtimeTime = "60s";
-  # };
 
 	systemd.settings.Manager = {
 		RebootWatchdogSec = "60";
 		RuntimeWatchdogSec = "60";
 	};
 
-    # watchdogd = {
-    #   enable = true;
-    #   runtimeTime = "60s";
-    #   rebootTime = 10;
-    # };
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
+	environment.systemPackages = with pkgs; [
+		dbeaver-bin
+		glow # Used for reading markdown files
+		slack
+		mysql84 # used for dbeaver 
+		pylint
+		nixpkgs-fmt
+		black
+		isort
+		eslint
+		qalculate-qt
+		nest-cli
+		nodejs_20
+		nodePackages.prettier
+		nodePackages.typescript
+		nodePackages.typescript-language-server
+	];
   # hyprland.enable = true;
   environment.sessionVariables = {
 	XDG_PICTURES_DIR = "$HOME";

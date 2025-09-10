@@ -1,5 +1,5 @@
 { inputs, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, nixvim, vars, ... }:
-
+# This file contains programs and packages across all systems
 let
   system = "x86_64-linux";
 
