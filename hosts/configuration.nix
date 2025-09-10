@@ -160,7 +160,7 @@
 	environment.systemPackages = with pkgs; [
 		mesa # used for some hyprland conf
 		libdrm # used for some hyprland conf
-		google-chrome
+		# google-chrome
 		# tmux
 # python313
 # python313Packages.pypdf
@@ -172,7 +172,7 @@
 		zathura # vim pdf-viewer
 		htop # se kørende processor
 		blueman # bluetooth
-		thunderbird
+		# thunderbird
 # bluez
 # fprintd # fingerscanning
 		pavucontrol # sound control
@@ -186,7 +186,7 @@
 		hyprshot
 		kitty
 		libnotify
-		libreoffice
+		# libreoffice
 		nautilus
 		gvfs # USB drives
 		gnome-disk-utility 	# USB drives
@@ -199,7 +199,7 @@
 		# xdg-desktop-portal-hyprland
 		xwayland # X session
 		hyprlock
-		discord
+		# discord
 		git
 		grub2
 		# libsForQt5.breeze-grub
