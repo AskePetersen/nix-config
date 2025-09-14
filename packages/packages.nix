@@ -4,6 +4,7 @@
 {
 	virtualisation.docker.enable = true;
 	environment.systemPackages = with pkgs; [
+		postman
 		sshfs # Litteraly best tool ever for remote editing
 		mesa # used for some hyprland conf
 		libdrm # used for some hyprland conf
@@ -30,7 +31,7 @@
 		feh # Image viewer
 		file # Just the findcommand
 		catppuccin-cursors.frappeBlue # my neat cursor
-		texliveFull # Den har alt latex
+		# texliveFull # Den har alt latex
 		bitwarden-desktop # password manager. kæmpe bis
 		zathura # vim pdf-viewer
 		htop # se kørende processor
