@@ -66,8 +66,13 @@
 	# 	monitor = true;
 	# };
 	displayManager = {
+		gdm.enable = false;
+		sddm = {
+			enable = true;
+			theme = "catppuccin-frappe";
+			package = pkgs.kdePackages.sddm;
+		};
 		sessionPackages = [ pkgs.hyprland ];
-		gdm.enable = true;
 	};
   };
 
@@ -189,6 +194,14 @@
 		git
 		grub2
 		catppuccin-grub
+		(catppuccin-sddm.override {
+			flavor = "frappe";
+			# accent = "mauve";
+			font  = "Noto Sans";
+			fontSize = "9";
+			# background = "${/home/aske/.config/backgrounds/shaded.png}";
+			loginBackground = true;
+		  })
 		# libsForQt5.breeze-grub
 		wget
 	];
