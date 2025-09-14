@@ -10,16 +10,23 @@
       systemd-boot.enable = false;
       efi.canTouchEfiVariables = true;
       grub = {
-        efiSupport = true;
-      enable = true;
-      devices = [ "nodev" ];
-      configurationLimit = 10;
-      useOSProber = true;
-      gfxmodeEfi = "1920x1080";
+		efiSupport = true;
+		enable = true;
+		devices = [ "nodev" ];
+		configurationLimit = 10;
+		useOSProber = true;
+		gfxmodeEfi = "1920x1080";
+		theme = pkgs.catppuccin-grub-theme;
       };
     };
   };
 
+  services = {
+    xserver = {
+      enable = true;
+      videoDrivers = [ "modesetting" ];
+    };
+  };
 	systemd.settings.Manager = {
 		RebootWatchdogSec = "60";
 		RuntimeWatchdogSec = "60";
@@ -28,14 +35,12 @@
 	environment.systemPackages = with pkgs; [
 		dbeaver-bin
 		glow # Used for reading markdown files
-		slack
 		mysql84 # used for dbeaver 
 		pylint
 		nixpkgs-fmt
 		black
 		isort
 		eslint
-		qalculate-qt
 		nest-cli
 		nodejs_20
 		nodePackages.prettier

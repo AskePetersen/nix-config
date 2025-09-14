@@ -20,10 +20,25 @@
     };
   };
 
+  hardware = {
+	  graphics = {
+			enable32Bit = true; # used for pokemon
+	  };
+  };
+  services = {
+    xserver = {
+      enable = true;
+      videoDrivers = [ "amdgpu" ];
+    };
+  };
 	systemd.settings.Manager = {
 		RebootWatchdogSec = "60";
 		RuntimeWatchdogSec = "60";
 	};
+
+	environment.systemPackages = with pkgs; [
+	  melonDS
+	];
 
   # hyprland.enable = true;
   environment.sessionVariables = {

@@ -23,10 +23,7 @@
 
   hardware = {
 	  graphics = {
-			# opengl used for hardware acceleration
 			enable = true;
-			# driSupport = true;
-			# driSupport32Bit = true;
 	  };
 	  enableAllFirmware = true;
 	  bluetooth = {
@@ -72,19 +69,6 @@
 		sessionPackages = [ pkgs.hyprland ];
 		gdm.enable = true;
 	};
-    xserver = {
-      enable = true;
-   #    displayManager = {
-		 #  gdm.enable = true;
-	  # };
-      # videoDrivers = [ "displaylink" "modesetting" ];
-      videoDrivers = [ "modesetting" ];
-      # desktopManager.gnome.enable = true;
-      # xkb = {
-      #   layout = "dk";
-      #   variant = "nodeadkeys";
-      # };
-    };
   };
 
   console = {
@@ -165,6 +149,8 @@
 # python313
 # python313Packages.pypdf
 		feh # Image viewer
+		slack
+		qalculate-qt
 		file # Just the findcommand
 		catppuccin-cursors.frappeBlue # my neat cursor
 		# texliveFull # Den har alt latex. One day when we need it
@@ -202,6 +188,7 @@
 		# discord
 		git
 		grub2
+		catppuccin-grub
 		# libsForQt5.breeze-grub
 		wget
 	];
