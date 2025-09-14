@@ -229,9 +229,9 @@
 			flavor = "frappe";
 			# accent = "mauve";
 			font  = "Noto Sans";
-			fontSize = "9";
-			# background = "${/home/aske/.config/backgrounds/shaded.png}";
-			loginBackground = true;
+			fontSize = "15";
+			# background = "/home/aske/nix-config/dotfiles/hypr/background.png";
+			# loginBackground = true;
 		  })
 		# libsForQt5.breeze-grub
 		wget
