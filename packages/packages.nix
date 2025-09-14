@@ -66,7 +66,7 @@
 		discord
 		git
 		grub2
-		# libsForQt5.breeze-grub
+		libsForQt5.breeze-grub
 		wget
 	];
 }

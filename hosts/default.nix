@@ -1,5 +1,5 @@
 { inputs, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, nixvim, vars, ... }:
-
+# This file contains programs and packages across all systems
 let
   system = "x86_64-linux";
 
@@ -16,17 +16,37 @@ let
   lib = nixpkgs.lib;
 in
 {
-  laptop = lib.nixosSystem {
+  ideapad = lib.nixosSystem {
     inherit system;
     specialArgs = {
       inherit inputs system stable vars;
       host = {
-        hostName = "laptop";
+        hostName = "ideapad";
       };
     };
     modules = [
       nixvim.nixosModules.nixvim
-      ./laptop
+      ./ideapad
+      ./configuration.nix
+
+      home-manager.nixosModules.home-manager
+      {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+      }
+    ];
+  };
+  thinkpad = lib.nixosSystem {
+    inherit system;
+    specialArgs = {
+      inherit inputs system stable vars;
+      host = {
+        hostName = "thinkpad";
+      };
+    };
+    modules = [
+      nixvim.nixosModules.nixvim
+      ./thinkpad
       ./configuration.nix
 
       home-manager.nixosModules.home-manager

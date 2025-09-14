@@ -1,3 +1,4 @@
+# Default configuration across all systems
 { config, lib, pkgs, stable, inputs, vars, ... }:
 
 {
@@ -22,10 +23,7 @@
 
   hardware = {
 	  graphics = {
-			# opengl used for hardware acceleration
 			enable = true;
-			# driSupport = true;
-			# driSupport32Bit = true;
 	  };
 	  enableAllFirmware = true;
 	  bluetooth = {
@@ -68,27 +66,13 @@
 	# 	monitor = true;
 	# };
 	displayManager = {
+		gdm.enable = false;
+		sddm = {
+			enable = true;
+			theme = "catppuccin-frappe";
+			package = pkgs.kdePackages.sddm;
+		};
 		sessionPackages = [ pkgs.hyprland ];
-		gdm.enable = true;
-	};
-    xserver = {
-      enable = true;
-   #    displayManager = {
-		 #  gdm.enable = true;
-	  # };
-      # videoDrivers = [ "displaylink" "modesetting" ];
-      videoDrivers = [ "modesetting" ];
-      # desktopManager.gnome.enable = true;
-      # xkb = {
-      #   layout = "dk";
-      #   variant = "nodeadkeys";
-      # };
-	};
-	tlp.settings = {
-	  BAT0 = {
-		  START_CHARGE_THRESH_BAT0 = 60;
-		  STOP_CHARGE_THRESH_BAT0 = 80;
-	  };
 	};
   };
 
@@ -158,6 +142,70 @@
       options = "--delete-older-than 40d";
     };
   };
+
+	
+
+	virtualisation.docker.enable = true;
+	environment.systemPackages = with pkgs; [
+		mesa # used for some hyprland conf
+		libdrm # used for some hyprland conf
+		# google-chrome
+		# tmux
+# python313
+# python313Packages.pypdf
+		feh # Image viewer
+		slack
+		qalculate-qt
+		file # Just the findcommand
+		catppuccin-cursors.frappeBlue # my neat cursor
+		# texliveFull # Den har alt latex. One day when we need it
+		bitwarden-desktop # password manager. kæmpe bis
+		zathura # vim pdf-viewer
+		htop # se kørende processor
+		blueman # bluetooth
+		# thunderbird
+# bluez
+# fprintd # fingerscanning
+		pavucontrol # sound control
+		starship # terminal jizz
+		brightnessctl
+# grimblast # Screenshot
+# hyprcursor # Cursor
+		hypridle
+		# hyprland
+		hyprpaper # Wallpaper
+		hyprshot
+		kitty
+		libnotify
+		# libreoffice
+		nautilus
+		gvfs # USB drives
+		gnome-disk-utility 	# USB drives
+		nwg-look # change the look of hyprland?
+		swaynotificationcenter
+		waybar
+		wl-clipboard # Clipboard
+		wlr-randr # Monitor Settings
+		wofi
+		# xdg-desktop-portal-hyprland
+		xwayland # X session
+		hyprlock
+		# discord
+		git
+		grub2
+		catppuccin-grub
+		(catppuccin-sddm.override {
+			flavor = "frappe";
+			# accent = "mauve";
+			font  = "Noto Sans";
+			fontSize = "9";
+			# background = "${/home/aske/.config/backgrounds/shaded.png}";
+			loginBackground = true;
+		  })
+		# libsForQt5.breeze-grub
+		wget
+	];
+
 
   system.stateVersion = "24.11"; # Did you read the comment?
 }
