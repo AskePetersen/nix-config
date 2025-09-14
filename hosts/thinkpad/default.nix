@@ -16,7 +16,6 @@
 		configurationLimit = 10;
 		useOSProber = true;
 		gfxmodeEfi = "1920x1080";
-		theme = pkgs.catppuccin-grub-theme;
       };
     };
   };
