@@ -3,8 +3,8 @@
 
 {
   imports = (
-    import ../programs ++
-	import ../packages
+    import ../programs
+	# import ../packages
   );
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
