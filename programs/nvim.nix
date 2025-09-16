@@ -239,8 +239,12 @@
 			lsp = {
 				enable = true;
 				servers = {
-					ts_ls.enable = true;
-					pyright.enable = true;
+					ts_ls.enable = true; # lsp server for typescript
+					pyright.enable = true; # lsp server for python
+					intelephense = { # lsp server for python
+						enable = true;
+						package = null;
+					};
 				};
 			};
 			# AI - at some point when i get an api key
