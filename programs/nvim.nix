@@ -110,12 +110,12 @@
 				key = "<tab>";
 				action = ">gv";
 			}
-			{
-				mode = "v";
-				key = "p";
-				action = "_dP";
-				options.desc = "Don't yank pasted over text";
-			}
+			# {
+			# 	mode = "v";
+			# 	key = "p";
+			# 	action = "_dP";
+			# 	options.desc = "Don't yank pasted over text";
+			# }
 			{
 				key = "½";
 				action = ":split v<cr>";
