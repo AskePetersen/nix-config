@@ -13,6 +13,7 @@
   };
 
 	environment.systemPackages = with pkgs; [
+		openssl
 		postman
 		sshfs # Litteraly best tool ever for remote editing
 		google-chrome

@@ -111,6 +111,12 @@
 				action = ">gv";
 			}
 			{
+				mode = "v";
+				key = "p";
+				action = "_dP";
+				options.desc = "Don't yank pasted over text";
+			}
+			{
 				key = "½";
 				action = ":split v<cr>";
 			}
@@ -211,7 +217,7 @@
 # Display current file in bufer?
 				mode = "n";
 				key = "<leader>fp";
-				action = "<CMD>:echo expand('%:p')<CR>";
+				action = "<CMD>let @+ = expand('%:p')<CR><CMD>echo expand('%:p')<CR>";
 			}
 			{
 				key = "<leader>rv";
@@ -281,25 +287,25 @@
 				};
 			};
 			# Linters for neovim
-			# conform-nvim = {
-			#	 enable = true;
-			#	 settings = {
-			#		 formatters_by_ft = {
-			#			 typescript = [ "prettier" ];
-			#			 javascript = [ "prettier" ];
-			#			 python = [ "isort" "black" ];
-			#			 nix = [ "nixpkgs-fmt" ];
-			#		 };
-			#		 format_on_save = ''
-			#			 function(bufnr)
-			#				 if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-			#					 return
-			#				 end
-			#					 return { timeout_ms = 1000, lsp_fallback = true }
-			#				 end
-			#		 '';
-			#	 };
-			# };
+			conform-nvim = {
+			 enable = true;
+			 settings = {
+				 formatters_by_ft = {
+					 typescript = [ "prettier" ];
+					 javascript = [ "prettier" ];
+					 python = [ "isort" "black" ];
+					 nix = [ "nixpkgs-fmt" ];
+				 };
+				 format_on_save = ''
+					 function(bufnr)
+						 if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+							 return
+						 end
+							 return { timeout_ms = 1000, lsp_fallback = true }
+						 end
+				 '';
+			  };
+			};
 			lint = {
 				enable = true;
 				lintersByFt = {
