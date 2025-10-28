@@ -43,6 +43,7 @@
 			updatetime = 50;
 			colorcolumn = "80";
 			# textwidth = 80;
+			foldenable = true;
 		};
 
 		clipboard = {
@@ -292,18 +293,16 @@
 			 settings = {
 				 formatters_by_ft = {
 					 typescript = [ "prettier" ];
+					 htmlangular = [ "prettier" ];
 					 javascript = [ "prettier" ];
 					 python = [ "isort" "black" ];
 					 nix = [ "nixpkgs-fmt" ];
 				 };
-				 format_on_save = ''
-					 function(bufnr)
-						 if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-							 return
-						 end
-							 return { timeout_ms = 1000, lsp_fallback = true }
-						 end
-				 '';
+				format_on_save = ''
+				  function(bufnr)
+					return { timeout_ms = 2000, lsp_fallback = true }
+				  end
+				'';
 			  };
 			};
 			lint = {
@@ -459,6 +458,12 @@
 		vim.keymap.set("n", "<leader>r", RunFile, { noremap = true, silent = true })
 
 
+
+		vim.treesitter.language.register("html", "htmlangular")
+		vim.o.foldmethod = "indent"
+		vim.o.foldenable = true
+		vim.o.foldlevel = 99
+		vim.o.foldlevelstart = 99
 	'';
 	};
 
