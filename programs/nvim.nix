@@ -293,7 +293,9 @@
 			 settings = {
 				 formatters_by_ft = {
 					 typescript = [ "prettier" ];
+					 scss = [ "prettier" ];
 					 htmlangular = [ "prettier" ];
+					 html= [ "prettier" ];
 					 javascript = [ "prettier" ];
 					 python = [ "isort" "black" ];
 					 nix = [ "nixpkgs-fmt" ];
