@@ -49,12 +49,13 @@
     };
   };
 
-  time = {
-    timeZone = "Europe/Copenhagen";
-    hardwareClockInLocalTime = true;
-  };
+  # time = {
+  #   timeZone = "Europe/Copenhagen";
+  #   hardwareClockInLocalTime = true;
+  # };
 
   environment.sessionVariables = {
+	NODE_OPTIONS="--max-old-space-size=4096";
 	XDG_PICTURES_DIR = "$HOME";
 	EDITOR = "nvim";
 	VISUAL = "nvim";
@@ -180,10 +181,17 @@
 	environment.systemPackages = with pkgs; [
 		mesa # used for some hyprland conf
 		libdrm # used for some hyprland conf
+		nmap
 		# google-chrome
 		# tmux
-# python313
-# python313Packages.pypdf
+		# python313
+		cutter
+		  (python313.withPackages (ps: with ps; [
+			pwntools
+			capstone
+			keystone-engine
+			unicorn
+		  ]))
 		feh # Image viewer
 		slack
 		qalculate-qt
