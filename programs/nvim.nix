@@ -18,6 +18,7 @@
 		enableMan = false;
 		viAlias = true;
 		vimAlias = true;
+
 		opts = {
 			expandtab = false;
 			softtabstop = 4;
@@ -167,18 +168,6 @@
 				key = "n";
 				action = "nzzzv"; 
 			}
-			# {
-			#   mode = "v";
-			#   key = "/";
-			#   action = ''"zy/<C-r>z'';
-			#   options.desc = "Search for visual selection (no auto-execute)";
-			# }
-			# {
-			#   mode = "v";
-			#   key = "?";
-			#   action = ''"zy?<C-r>z'';
-			#   options.desc = "Reverse search for visual selection (no auto-execute)";
-			# }
 			{ # keeps us centered when we search
 				key = "[";
 				action = "[zzzv"; 
@@ -442,16 +431,6 @@
 		};
 
 		extraConfigLua = ''
-		    -- Visual selection search: / and ? prefilled with selection
-			vim.keymap.set("x", "/", function()
-				vim.fn.setreg("/", vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]"))
-				vim.api.nvim_feedkeys("/", "n", false)
-			end)
-
-			vim.keymap.set("x", "?", function()
-				vim.fn.setreg("?", vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]"))
-				vim.api.nvim_feedkeys("?", "n", false)
-			end)
 
 		 -- Automatically input what i've selected and insert it in telescope.
 			vim.keymap.set('v', '<leader>fg', function()
