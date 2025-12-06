@@ -431,6 +431,16 @@
 		};
 
 		extraConfigLua = ''
+			-- Visual selection search: / and ? prefilled with selection
+			vim.keymap.set("x", "/", function()
+				vim.fn.setreg("/", vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]"))
+				vim.api.nvim_feedkeys("/", "n", false)
+			end)
+
+			vim.keymap.set("x", "?", function()
+				vim.fn.setreg("?", vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]"))
+				vim.api.nvim_feedkeys("?", "n", false)
+			end)
 
 		 -- Automatically input what i've selected and insert it in telescope.
 			vim.keymap.set('v', '<leader>fg', function()
