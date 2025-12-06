@@ -167,6 +167,42 @@
 				key = "n";
 				action = "nzzzv"; 
 			}
+			# {
+			#   mode = "v";
+			#   key = "/";
+			#   action = ''"zy/<C-r>z'';
+			#   options.desc = "Search for visual selection (no auto-execute)";
+			# }
+			# {
+			#   mode = "v";
+			#   key = "?";
+			#   action = ''"zy?<C-r>z'';
+			#   options.desc = "Reverse search for visual selection (no auto-execute)";
+			# }
+			{ # keeps us centered when we search
+				key = "[";
+				action = "[zzzv"; 
+			}
+			{ # keeps us centered when we search
+				key = "]";
+				action = "]zzzv"; 
+			}
+			{ # keeps us centered when we search
+				key = "{";
+				action = "{zzzv"; 
+			}
+			{ # keeps us centered when we search
+				key = "}";
+				action = "{zzzv"; 
+			}
+			{ # keeps us centered when we search
+				key = "[m";
+				action = "[mzzzv"; 
+			}
+			{ # keeps us centered when we search
+				key = "]m";
+				action = "]mzzzv"; 
+			}
 			{ # apparently this makes me a n00b
 				key = "<C-c>";
 				action = "<Esc>l"; 
@@ -406,6 +442,29 @@
 		};
 
 		extraConfigLua = ''
+		    -- Visual selection search: / and ? prefilled with selection
+			vim.keymap.set("x", "/", function()
+				vim.fn.setreg("/", vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]"))
+				vim.api.nvim_feedkeys("/", "n", false)
+			end)
+
+			vim.keymap.set("x", "?", function()
+				vim.fn.setreg("?", vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]"))
+				vim.api.nvim_feedkeys("?", "n", false)
+			end)
+
+		 -- Automatically input what i've selected and insert it in telescope.
+			vim.keymap.set('v', '<leader>fg', function()
+			  local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
+			  require('telescope.builtin').live_grep({ default_text = table.concat(text, '\n') })
+			end, { desc = "Grep for visual selection" })
+
+			vim.keymap.set('v', '<leader>ff', function()
+			  local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
+			  require('telescope.builtin').find_files({ default_text = table.concat(text, '\n') })
+			end, { desc = "Find files with visual selection" })
+
+
 		-- Textwrap 
 		vim.api.nvim_create_autocmd("FileType", {
 			pattern = { "markdown", "text", "tex", "plaintex" },
