@@ -197,6 +197,18 @@
 				action = "<Esc>l"; 
 				mode = "i";
 			}
+			{
+			  mode = "v";
+			  key = "/";
+			  action = ''"zy/<C-r>z'';
+			  options.desc = "Search for visual selection (no auto-execute)";
+			}
+			{
+			  mode = "v";
+			  key = "?";
+			  action = ''"zy?<C-r>z'';
+			  options.desc = "Reverse search for visual selection (no auto-execute)";
+			}
 			{ # search and replace current word
 				key = "<leader>s";
 				action = ":%s/<C-r><C-w>//gI<Left><Left><Left>"; 
@@ -431,16 +443,6 @@
 		};
 
 		extraConfigLua = ''
-			-- Visual selection search: / and ? prefilled with selection
-			vim.keymap.set("x", "/", function()
-				vim.fn.setreg("/", vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]"))
-				vim.api.nvim_feedkeys("/", "n", false)
-			end)
-
-			vim.keymap.set("x", "?", function()
-				vim.fn.setreg("?", vim.fn.escape(vim.fn.getreg("v"), "\\/.*$^~[]"))
-				vim.api.nvim_feedkeys("?", "n", false)
-			end)
 
 		 -- Automatically input what i've selected and insert it in telescope.
 			vim.keymap.set('v', '<leader>fg', function()
