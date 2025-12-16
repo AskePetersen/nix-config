@@ -81,7 +81,7 @@
 			{
 				mode = "n";
 				key = "gd";
-				action = "<CMD>lua vim.lsp.buf.hover()<CR>";
+				action = "<CMD>lua vim.lsp.buf.hover()<CR>zz";
 				options.desc = "Show lsp definition in floating window";
 			}
 			{
@@ -182,7 +182,7 @@
 			}
 			{ # keeps us centered when we search
 				key = "}";
-				action = "{zzzv"; 
+				action = "}zzzv"; 
 			}
 			{ # keeps us centered when we search
 				key = "[m";
@@ -194,6 +194,11 @@
 			}
 			{ # apparently this makes me a n00b
 				key = "<C-c>";
+				action = "<Nop>"; 
+				mode = "i";
+			}
+			{
+				key = "<Esc>";
 				action = "<Esc>l"; 
 				mode = "i";
 			}
