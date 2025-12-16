@@ -25,6 +25,6 @@
 		home.file.".tmux.conf".source = ../dotfiles/tmux/tmux.conf;
 
 		# bash
-		# home.file.".bashrc".source = ../dotfiles/bash/.bashrc;
+		home.file.".bashrc".source = ../dotfiles/bash/.bashrc;
 	};
 }
