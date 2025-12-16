@@ -164,6 +164,12 @@
 
   environment.shellAliases = { vim = "nvim"; };
 
+  
+  # Set as default for text files
+  xdg.mime.defaultApplications = {
+    "text/plain" = "nvim-kitty.desktop";
+  };
+
   nix = {
 	# substitue = true;
 	# builders-use-substitutes = true;
@@ -179,19 +185,29 @@
 
 	virtualisation.docker.enable = true;
 	environment.systemPackages = with pkgs; [
+  # Create a desktop entry that opens text files in kitty with proper nvim
+    (pkgs.makeDesktopItem {
+      name = "nvim-kitty";
+      desktopName = "Neovim (Kitty)";
+      exec = "${pkgs.kitty}/bin/kitty -e nvim %F";
+      terminal = false;
+      icon = "nvim";
+      mimeTypes = [ "text/plain" "text/x-python" "text/x-c" "text/html" "text/css" "text/javascript" ];
+      categories = [ "Development" "TextEditor" ];
+    })
 		mesa # used for some hyprland conf
 		libdrm # used for some hyprland conf
 		nmap
 		# google-chrome
 		# tmux
 		# python313
-		cutter
-		  (python313.withPackages (ps: with ps; [
-			pwntools
-			capstone
-			keystone-engine
-			unicorn
-		  ]))
+		# cutter
+		#   (python313.withPackages (ps: with ps; [
+		# 	pwntools
+		# 	capstone
+		# 	keystone-engine
+		# 	unicorn
+		#   ]))
 		feh # Image viewer
 		slack
 		qalculate-qt
