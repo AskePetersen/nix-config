@@ -214,6 +214,12 @@
 			  action = ''"zy?<C-r>z'';
 			  options.desc = "Reverse search for visual selection (no auto-execute)";
 			}
+			{ # Better paste in visual mode - doesn't overwrite the paste register
+			  mode = "x";
+			  key = "p";
+			  action = ''"_dP'';
+			  options.desc = "Paste without overwriting register";
+			}
 			{ # search and replace current word
 				key = "<leader>s";
 				action = ":%s/<C-r><C-w>//gI<Left><Left><Left>"; 
