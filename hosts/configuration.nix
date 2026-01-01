@@ -101,7 +101,7 @@
 		gdm.enable = false;
 		sddm = {
 			enable = true;
-			theme = "catppuccin-frappe";
+			theme = "catppuccin-mocha";
 			package = pkgs.kdePackages.sddm;
 		};
 		sessionPackages = [ pkgs.hyprland ];
@@ -250,12 +250,10 @@
 		grub2
 		catppuccin-grub
 		(catppuccin-sddm.override {
-			flavor = "frappe";
-			# accent = "mauve";
-			font  = "Noto Sans";
-			fontSize = "15";
-			# background = "/home/aske/nix-config/dotfiles/hypr/background.png";
-			# loginBackground = true;
+			flavor = "mocha";
+			font  = "JetBrainsMono Nerd Font";
+			fontSize = "16";
+			background = "${../dotfiles/hypr/wallpapers/1366123.jpg}";
 		  })
 		# libsForQt5.breeze-grub
 		wget
