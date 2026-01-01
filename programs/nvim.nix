@@ -20,13 +20,14 @@
 		vimAlias = true;
 
 		opts = {
+			sidescrolloff = 20; # horizontally allignment
 			expandtab = false;
-			softtabstop = 4;
+			softtabstop = 2;
 			smartindent = true;
 			number = true;
 			relativenumber = true;
-			shiftwidth = 4;
-			tabstop = 4;
+			shiftwidth = 2;
+			tabstop = 2;
 			autoindent = true;
 			fileencoding = "utf-8";
 			cursorline = false;
@@ -45,6 +46,7 @@
 			colorcolumn = "80";
 			# textwidth = 80;
 			foldenable = true;
+			guicursor = "i:block";
 		};
 
 		clipboard = {
