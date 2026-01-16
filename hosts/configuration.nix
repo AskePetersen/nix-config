@@ -257,6 +257,7 @@
 		  })
 		# libsForQt5.breeze-grub
 		wget
+		google-cloud-sdk
 	];
 
 

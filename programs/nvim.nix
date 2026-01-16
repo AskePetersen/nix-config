@@ -281,6 +281,26 @@
 				action = "<CMD>:LazyGit<CR>";
 				options.desc = "Lazygit open";
 			}
+			{
+				mode = "i";
+				key = "<Up>";
+				action = "<Nop>";
+			}
+			{
+				mode = "i";
+				key = "<Down>";
+				action = "<Nop>";
+			}
+			{
+				mode = "i";
+				key = "<Left>";
+				action = "<Nop>";
+			}
+			{
+				mode = "i";
+				key = "<Right>";
+				action = "<Nop>";
+			}
 		];
 
 		plugins = {
