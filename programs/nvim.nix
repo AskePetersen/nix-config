@@ -105,6 +105,30 @@
 				options.desc = "Show lsp diagnostic in floating window";
 			}
 			{
+				mode = "n";
+				key = "<leader>rn";
+				action = "<CMD>lua vim.lsp.buf.rename()<CR>";
+				options.desc = "Rename variable, function etc. across entire project";
+			}
+			{
+				mode = "n";
+				key = "<leader>ca";
+				action = "<CMD>lua vim.lsp.buf.code_action()<CR>";
+				options.desc = "vim.lsp.buf.code_action() opens a menu showing available code actions at the current cursor position.";
+			}
+			{
+				mode = "n";
+				key = "<leader>k";
+				action = "<CMD>lua vim.diagnostic.goto_prev()<CR>";
+				options.desc = "jump to previous error";
+			}
+			{
+				mode = "n";
+				key = "<leader>j";
+				action = "<CMD>lua vim.diagnostic.goto_next()<CR>";
+				options.desc = "jump to next error";
+			}
+			{
 				mode = "v";
 				key = "<S-tab>";
 				action = "<gv";
@@ -370,11 +394,10 @@
 					 python = [ "isort" "black" ];
 					 nix = [ "nixpkgs-fmt" ];
 				 };
-				format_on_save = ''
-				  function(bufnr)
-					return { timeout_ms = 2000, lsp_fallback = true }
-				  end
-				'';
+				format_on_save = {
+					timeout_ms = 500;
+					lsp_fallback = true;
+				};
 			  };
 			};
 			lint = {

@@ -4,13 +4,13 @@
 {
   imports = (
     import ../programs
-	# import ../packages
+    # import ../packages
   );
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.package = pkgs.nix;
 
-  
+
   security.sudo.wheelNeedsPassword = false; # Bad practice, I'm just tired of typing root pwd
 
   networking = {
@@ -22,29 +22,29 @@
   };
 
   hardware = {
-	  graphics = {
-			enable = true;
-	  };
-	  enableAllFirmware = true;
-	  bluetooth = {
-		  enable = true;
-		  powerOnBoot = true;
-	  };
+    graphics = {
+      enable = true;
+    };
+    enableAllFirmware = true;
+    bluetooth = {
+      enable = true;
+      powerOnBoot = true;
+    };
   };
 
   # Bootloader.
   boot = {
-    loader =  {
+    loader = {
       systemd-boot.enable = false;
       efi.canTouchEfiVariables = true;
       grub = {
-		efiSupport = true;
-		enable = true;
-		devices = [ "nodev" ];
-		configurationLimit = 10;
-		useOSProber = true;
-		gfxmodeEfi = "1920x1080";
-		theme = pkgs.catppuccin-grub;
+        efiSupport = true;
+        enable = true;
+        devices = [ "nodev" ];
+        configurationLimit = 10;
+        useOSProber = true;
+        gfxmodeEfi = "1920x1080";
+        theme = pkgs.catppuccin-grub;
       };
     };
   };
@@ -55,22 +55,22 @@
   # };
 
   environment.sessionVariables = {
-	NODE_OPTIONS="--max-old-space-size=4096";
-	XDG_PICTURES_DIR = "$HOME";
-	EDITOR = "nvim";
-	VISUAL = "nvim";
-	# Wayland / Hyprland specific variables
-	NIXOS_OZONE_WL = "1";
-	WLR_NO_HARDWARE_CURSORS = "1";
+    NODE_OPTIONS = "--max-old-space-size=4096";
+    XDG_PICTURES_DIR = "$HOME";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+    # Wayland / Hyprland specific variables
+    NIXOS_OZONE_WL = "1";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
-	systemd.settings.Manager = {
-		RebootWatchdogSec = "60";
-		RuntimeWatchdogSec = "60";
-	};
+  systemd.settings.Manager = {
+    RebootWatchdogSec = "60";
+    RuntimeWatchdogSec = "60";
+  };
 
   # Select internationalisation properties.
-  i18n = { 
+  i18n = {
     defaultLocale = "en_GB.UTF-8";
     extraLocaleSettings = {
       LC_ADDRESS = "da_DK.UTF-8";
@@ -90,22 +90,24 @@
     gvfs.enable = true;
     udisks2.enable = true; # used for USB devices
     blueman.enable = true;
-    fprintd.enable = true;	
+    fprintd.enable = true;
     pulseaudio.enable = false;
     printing.enable = true;
-	# onedrive = {
-	# 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
-	# 	monitor = true;
-	# };
-	displayManager = {
-		gdm.enable = false;
-		sddm = {
-			enable = true;
-			theme = "catppuccin-mocha";
-			package = pkgs.kdePackages.sddm;
-		};
-		sessionPackages = [ pkgs.hyprland ];
-	};
+    # DisplayLink support for docking station
+    xserver.videoDrivers = [ "displaylink" "modesetting" ];
+    # onedrive = {
+    # 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
+    # 	monitor = true;
+    # };
+    displayManager = {
+      gdm.enable = false;
+      sddm = {
+        enable = true;
+        theme = "catppuccin-mocha";
+        package = pkgs.kdePackages.sddm;
+      };
+      sessionPackages = [ pkgs.hyprland ];
+    };
   };
 
   console = {
@@ -115,8 +117,8 @@
 
   # Enable sound with pipewire.
   security = {
-	  rtkit.enable = true;
-	  polkit.enable = true;
+    rtkit.enable = true;
+    polkit.enable = true;
   };
   services.pipewire = {
     enable = true;
@@ -127,17 +129,17 @@
     #jack.enable = true;
   };
 
-	xdg.portal = {
-		enable = true;
-		wlr.enable = true;
-		extraPortals = with pkgs; [
-			xdg-desktop-portal-hyprland
-			xdg-desktop-portal-gtk
-		];
-	};
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-   users.users.aske = {
+  users.users.aske = {
     isNormalUser = true;
     extraGroups = [ "plugdev" "networkmanager" "wheel" ];
     # packages = with pkgs; [
@@ -155,24 +157,24 @@
   };
 
   fonts.packages = with pkgs; [
-  	pkgs.nerd-fonts.caskaydia-cove
+    pkgs.nerd-fonts.caskaydia-cove
     # font-awesome # Icons
   ];
-  
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   environment.shellAliases = { vim = "nvim"; };
 
-  
+
   # Set as default for text files
   xdg.mime.defaultApplications = {
     "text/plain" = "nvim-kitty.desktop";
   };
 
   nix = {
-	# substitue = true;
-	# builders-use-substitutes = true;
+    # substitue = true;
+    # builders-use-substitutes = true;
     settings.auto-optimise-store = true;
     gc = {
       automatic = true;
@@ -181,11 +183,11 @@
     };
   };
 
-	
 
-	virtualisation.docker.enable = true;
-	environment.systemPackages = with pkgs; [
-  # Create a desktop entry that opens text files in kitty with proper nvim
+
+  virtualisation.docker.enable = true;
+  environment.systemPackages = with pkgs; [
+    # Create a desktop entry that opens text files in kitty with proper nvim
     (pkgs.makeDesktopItem {
       name = "nvim-kitty";
       desktopName = "Neovim (Kitty)";
@@ -195,70 +197,71 @@
       mimeTypes = [ "text/plain" "text/x-python" "text/x-c" "text/html" "text/css" "text/javascript" ];
       categories = [ "Development" "TextEditor" ];
     })
-		mesa # used for some hyprland conf
-		libdrm # used for some hyprland conf
-		nmap
-		# google-chrome
-		# tmux
-		# python313
-		# cutter
-		#   (python313.withPackages (ps: with ps; [
-		# 	pwntools
-		# 	capstone
-		# 	keystone-engine
-		# 	unicorn
-		#   ]))
-		feh # Image viewer
-		slack
-		qalculate-qt
-		file # Just the findcommand
-		catppuccin-cursors.frappeBlue # my neat cursor
-		# texliveFull # Den har alt latex. One day when we need it
-		bitwarden-desktop # password manager. kæmpe bis
-		zathura # vim pdf-viewer
-		htop # se kørende processor
-		blueman # bluetooth
-		# thunderbird
-# bluez
-# fprintd # fingerscanning
-		pavucontrol # sound control
-		starship # terminal jizz
-		brightnessctl
-# grimblast # Screenshot
-# hyprcursor # Cursor
-		hypridle
-		# hyprland
-		hyprpaper # Wallpaper
-		hyprshot
-		kitty
-		libnotify
-		# libreoffice
-		nautilus
-		gvfs # USB drives
-		gnome-disk-utility 	# USB drives
-		nwg-look # change the look of hyprland?
-		swaynotificationcenter
-		waybar
-		wl-clipboard # Clipboard
-		wlr-randr # Monitor Settings
-		wofi
-		# xdg-desktop-portal-hyprland
-		xwayland # X session
-		hyprlock
-		# discord
-		git
-		grub2
-		catppuccin-grub
-		(catppuccin-sddm.override {
-			flavor = "mocha";
-			font  = "JetBrainsMono Nerd Font";
-			fontSize = "16";
-			background = "${../dotfiles/hypr/wallpapers/1366123.jpg}";
-		  })
-		# libsForQt5.breeze-grub
-		wget
-		google-cloud-sdk
-	];
+    mesa # used for some hyprland conf
+    libdrm # used for some hyprland conf
+    nmap
+    # google-chrome
+    # tmux
+    # python313
+    # cutter
+    #   (python313.withPackages (ps: with ps; [
+    # 	pwntools
+    # 	capstone
+    # 	keystone-engine
+    # 	unicorn
+    #   ]))
+    feh # Image viewer
+    slack
+    qalculate-qt
+    file # Just the findcommand
+    catppuccin-cursors.frappeBlue # my neat cursor
+    # texliveFull # Den har alt latex. One day when we need it
+    bitwarden-desktop # password manager. kæmpe bis
+    zathura # vim pdf-viewer
+    htop # se kørende processor
+    blueman # bluetooth
+    # thunderbird
+    # bluez
+    # fprintd # fingerscanning
+    pavucontrol # sound control
+    starship # terminal jizz
+    brightnessctl
+    # grimblast # Screenshot
+    # hyprcursor # Cursor
+    hypridle
+    # hyprland
+    hyprpaper # Wallpaper
+    hyprshot
+    kitty
+    libnotify
+    # libreoffice
+    nautilus
+    gvfs # USB drives
+    gnome-disk-utility # USB drives
+    nwg-look # change the look of hyprland?
+    swaynotificationcenter
+    waybar
+    wl-clipboard # Clipboard
+    wlr-randr # Monitor Settings
+    wofi
+    # xdg-desktop-portal-hyprland
+    xwayland # X session
+    hyprlock
+    # discord
+    git
+    grub2
+    catppuccin-grub
+    (catppuccin-sddm.override {
+      flavor = "mocha";
+      font = "JetBrainsMono Nerd Font";
+      fontSize = "16";
+      background = "${../dotfiles/hypr/wallpapers/1366123.jpg}";
+    })
+    # libsForQt5.breeze-grub
+    wget
+    google-cloud-sdk
+    displaylink # DisplayLink driver for docking station
+  ];
 
 
   system.stateVersion = "24.11"; # Did you read the comment?
