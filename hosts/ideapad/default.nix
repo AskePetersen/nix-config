@@ -20,5 +20,7 @@
 
 	environment.systemPackages = with pkgs; [
 	  melonDS
+	  lutris
+		wine
 	];
 }
