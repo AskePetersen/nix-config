@@ -261,6 +261,7 @@
     wget
     google-cloud-sdk
     displaylink # DisplayLink driver for docking station
+		kdePackages.kolourpaint
   ];
 
 
