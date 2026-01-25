@@ -179,7 +179,7 @@
     gc = {
       automatic = true;
       dates = "weekly";
-      options = "--delete-older-than 40d";
+      options = "--delete-older-than 14d";
     };
   };
 
@@ -261,7 +261,7 @@
     wget
     google-cloud-sdk
     displaylink # DisplayLink driver for docking station
-		kdePackages.kolourpaint
+    kdePackages.kolourpaint
   ];
 
 

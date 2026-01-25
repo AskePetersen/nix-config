@@ -3,3 +3,4 @@ all-nix-files.txt
 ideapad.sh
 thinkpad.sh
 dotfiles/hypr/hyprland-monitors/localmonitor.conf
+backup/
