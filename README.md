@@ -14,6 +14,9 @@ run
 and then run 
 `tmux source-file ~/.tmux.conf`
 
+# Terminal looks wierd:
+`starship preset gruvbox-rainbow -o ~/.config/starship.toml`
+restart pc to make it work
 
 # Missing packages
 		openssl

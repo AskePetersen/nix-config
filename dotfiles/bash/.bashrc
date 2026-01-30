@@ -2,7 +2,6 @@
 # ~/.bashrc
 #
 
-eval "$(starship init bash)"
 set -o vi
 bind 'set show-mode-in-prompt on'
 bind 'set vi-ins-mode-string " [I] "'
@@ -47,3 +46,4 @@ PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__bash_precmd"
 
 # Trap DEBUG to capture command before execution
 trap '__bash_preexec' DEBUG
+eval "$(starship init bash)"
