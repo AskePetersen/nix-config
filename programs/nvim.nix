@@ -56,8 +56,8 @@
     };
 
     # Red squiggly lines
+    # virtual_text = true;
     diagnostic.settings = {
-      virtual_text = true;
       signs = true;
       underline = true;
       update_in_insert = true;
@@ -258,14 +258,14 @@
       }
       {
         # Better paste in visual mode - doesn't overwrite the paste register
-        mode = "x";
+        mode = "v";
         key = "p";
         action = ''"_dp'';
         options.desc = "Paste without overwriting register";
       }
       {
         # Better paste in visual mode - doesn't overwrite the paste register
-        mode = "x";
+        mode = "v";
         key = "P";
         action = ''"_dP'';
         options.desc = "Paste without overwriting register";

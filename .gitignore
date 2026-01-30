@@ -2,5 +2,5 @@ tmux-client*
 all-nix-files.txt
 ideapad.sh
 thinkpad.sh
-dotfiles/hypr/hyprland-monitors/localmonitor.conf
+# dotfiles/hypr/hyprland-monitors/localmonitor.conf
 backup/
