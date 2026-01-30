@@ -8,28 +8,31 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/3a728262-66a9-42af-b5e6-89120e31ea13";
+    { device = "/dev/disk/by-uuid/831ad4f7-dc0b-442d-b484-160bd1bb6c4c";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/6EC6-2D9A";
+    { device = "/dev/disk/by-uuid/6A0C-3658";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  swapDevices = [ 
-    {
-      device = "/var/lib/swapfile";
-      size = 16384; # 16GB swap for ThinkPad (adjust based on your RAM)
-    }
-  ];
+  # swapDevices = [ 
+  #   {
+  #     device = "/var/lib/swapfile";
+  #     size = 16384; # 16GB swap for ThinkPad (adjust based on your RAM)
+  #   }
+  # ];
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/9040d67e-bfdb-43f4-ac81-88a58b182cfe"; }
+    ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
