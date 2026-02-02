@@ -260,14 +260,14 @@
         # Better paste in visual mode - doesn't overwrite the paste register
         mode = "v";
         key = "p";
-        action = ''"_dp'';
+        action = ''"_dP'';
         options.desc = "Paste without overwriting register";
       }
       {
         # Better paste in visual mode - doesn't overwrite the paste register
         mode = "v";
         key = "P";
-        action = ''"_dP'';
+        action = ''"_dp'';
         options.desc = "Paste without overwriting register";
       }
       {

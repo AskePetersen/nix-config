@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
   ];
 
+
   services = {
     xserver = {
       enable = true;
@@ -33,6 +34,8 @@
     nodePackages.prettier
     nodePackages.typescript
     nodePackages.typescript-language-server
+    lutris
+    wine
   ];
   # hyprland.enable = true;
 }
