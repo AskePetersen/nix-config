@@ -49,10 +49,10 @@
     };
   };
 
-  # time = {
-  #   timeZone = "Europe/Copenhagen";
-  #   hardwareClockInLocalTime = true;
-  # };
+  time = {
+    timeZone = "Europe/Copenhagen";
+    hardwareClockInLocalTime = true;
+  };
 
   environment.sessionVariables = {
     NODE_OPTIONS = "--max-old-space-size=4096";
