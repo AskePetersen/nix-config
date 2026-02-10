@@ -55,8 +55,10 @@
   };
 
   environment.sessionVariables = {
+    JAVA_HOME = "${pkgs.jdk17}/lib/openjdk"; # for running android studio
     NODE_OPTIONS = "--max-old-space-size=4096";
     XDG_PICTURES_DIR = "$HOME";
+    CAPACITOR_ANDROID_STUDIO_PATH = "/run/current-system/sw/bin/android-studio";
     EDITOR = "nvim";
     VISUAL = "nvim";
     # Wayland / Hyprland specific variables
@@ -163,7 +165,6 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
   environment.shellAliases = { vim = "nvim"; };
 
 

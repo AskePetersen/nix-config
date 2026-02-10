@@ -56,7 +56,7 @@
     };
 
     # Red squiggly lines
-    # virtual_text = true;
+    virtual_text = true;
     diagnostic.settings = {
       signs = true;
       underline = true;
