@@ -28,5 +28,21 @@
     home.file.".bashrc".source = ../dotfiles/bash/.bashrc;
 
     home.file.".gitmessage".source = ../dotfiles/git/.gitmessage;
+    programs = {
+      git = {
+        enable = true;
+        settings = {
+          commit.template = "/home/aske/.gitmessage";
+        };
+      };
+      lazygit = {
+        enable = true;
+        settings = {
+          git.commit.signOff = false;
+          os.editPreset = " nvim ";
+        };
+      };
+    };
   };
 }
+

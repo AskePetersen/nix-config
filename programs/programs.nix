@@ -1,25 +1,24 @@
-{config, lib, pkgs, vars, host, ... }:
+{ config, lib, pkgs, vars, host, ... }:
 with lib;
 with host;
 
 {
-	programs = {
-		steam.enable = false;
-		hyprland = {
-			enable = true;
-			xwayland.enable = true;
-			# package = hyprland.packages.${pkgs.system}.hyprland;
-		};
-		# nm-applet = {
-		# 	enable = true;
-		# 	indicator = true;
-		# };
-		thunderbird.enable = true;
-		starship.enable = true;
-		hyprlock.enable = true;
-		nixvim.enable = true;
-		git.enable = true;
-		firefox.enable = true;
-	};
+  programs = {
+    steam.enable = false;
+    hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      # package = hyprland.packages.${pkgs.system}.hyprland;
+    };
+    # nm-applet = {
+    # 	enable = true;
+    # 	indicator = true;
+    # };
+    thunderbird.enable = true;
+    starship.enable = true;
+    hyprlock.enable = true;
+    nixvim.enable = true;
+    firefox.enable = true;
+  };
   zramSwap.enable = true;
 }
