@@ -413,12 +413,14 @@
       # View a file explorer
       neo-tree = {
         enable = true;
-        window.width = 35;
-        closeIfLastWindow = true;
-        extraOptions = {
-          filesystem = {
-            filtered_items = {
-              visible = true;
+        settings = {
+          window.width = 35;
+          closeIfLastWindow = true;
+          extraOptions = {
+            filesystem = {
+              filtered_items = {
+                visible = true;
+              };
             };
           };
         };
@@ -537,91 +539,89 @@
     };
 
     extraConfigLua = ''
-      			-- Lualine config
-      			require('lualine').setup({
-      			options = {
-      			disabled_filetypes = {
-      			statusline = { 'neo-tree' }
-      			},
-      			},
-      			sections = {
-      			lualine_x = {},
-      			},
-      			})
+            			-- Lualine config
+            			require('lualine').setup({
+            			options = {
+            			disabled_filetypes = {
+            			statusline = { 'neo-tree' }
+            			},
+            			},
+            			sections = {
+            			lualine_x = {},
+            			},
+            			})
 
-      			-- Automatically input what i've selected and insert it in telescope.
-      			vim.keymap.set('v', '<leader>fg', function()
-      			local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
-      			require('telescope.builtin').live_grep({ default_text = table.concat(text, '\n') })
-      			end, { desc = "Grep for visual selection" })
+            			-- Automatically input what i've selected and insert it in telescope.
+            			vim.keymap.set('v', '<leader>fg', function()
+            			local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
+            			require('telescope.builtin').live_grep({ default_text = table.concat(text, '\n') })
+            			end, { desc = "Grep for visual selection" })
 
-      			vim.keymap.set('v', '<leader>ff', function()
-      			local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
-      			require('telescope.builtin').find_files({ default_text = table.concat(text, '\n') })
-      			end, { desc = "Find files with visual selection" })
-
-
-      			-- Textwrap 
-      			vim.api.nvim_create_autocmd("FileType", {
-      			pattern = { "markdown", "text", "tex", "plaintex" },
-      			callback = function()
-      			-- vim.cmd("setlocal spell spelllang=en_us")
-      			vim.keymap.set("n", "j", "gj", { buffer = true })
-      			vim.keymap.set("n", "k", "gk", { buffer = true })
-      			vim.opt_local.wrap = true
-      			vim.opt_local.linebreak = true
-      			vim.opt_local.list = false
-      			end,
-      			})
-
-      			-- Random keybindings
-      			vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition" })
-
-      			-- Harpoon shit
-      			local harpoon = require("harpoon")
-      			harpoon:setup()
-      			vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
-      			vim.keymap.set("n", "<leader>e", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-      			vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-      			vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
-      			vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
-      			vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
+            			vim.keymap.set('v', '<leader>ff', function()
+            			local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
+            			require('telescope.builtin').find_files({ default_text = table.concat(text, '\n') })
+            			end, { desc = "Find files with visual selection" })
 
 
-      			-- This is chatgpt shit, it sets up <leader>r to run the current file
-      			-- It also figures out what command to run
-      			function RunFile()
-      			local filetype = vim.bo.filetype
-      			local filename = vim.fn.expand("%")
-      			local cmd = ""
+            			-- Textwrap 
+            			vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+      							pattern = { "*.md", "*.txt", "*.tex", "*.log" },
+      							callback = function()
+      								-- vim.cmd("setlocal spell spelllang=en_us")
+      								vim.opt_local.wrap = true
+      								vim.opt_local.linebreak = true
+      								vim.opt_local.list = false
+      							end,
+            			})
 
-      			if filetype == "python" then
-      			cmd = "python3 " .. filename
-      			elseif filetype == "tex" then
-      			cmd = "xelatex " .. filename
-      			elseif filetype == "plaintex" then
-      			cmd = "xelatex " .. filename
-      			elseif filetype == "c" then
-      			cmd = "gcc " .. filename .. " -o output && ./output"
-      			else
-      			print("No run command defined for " .. filetype)
-      			return
-      			end
+            			-- Random keybindings
+            			vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition" })
 
-      			-- Create a new terminal buffer
-      			vim.cmd("!" .. cmd)
-      			end
+            			-- Harpoon shit
+            			local harpoon = require("harpoon")
+            			harpoon:setup()
+            			vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+            			vim.keymap.set("n", "<leader>e", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+            			vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
+            			vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
+            			vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
+            			vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
 
-      			vim.keymap.set("n", "<leader>r", RunFile, { noremap = true, silent = true })
+
+            			-- This is chatgpt shit, it sets up <leader>r to run the current file
+            			-- It also figures out what command to run
+            			function RunFile()
+            			local filetype = vim.bo.filetype
+            			local filename = vim.fn.expand("%")
+            			local cmd = ""
+
+            			if filetype == "python" then
+            			cmd = "python3 " .. filename
+            			elseif filetype == "tex" then
+            			cmd = "xelatex " .. filename
+            			elseif filetype == "plaintex" then
+            			cmd = "xelatex " .. filename
+            			elseif filetype == "c" then
+            			cmd = "gcc " .. filename .. " -o output && ./output"
+            			else
+            			print("No run command defined for " .. filetype)
+            			return
+            			end
+
+            			-- Create a new terminal buffer
+            			vim.cmd("!" .. cmd)
+            			end
+
+            			vim.keymap.set("n", "<leader>r", RunFile, { noremap = true, silent = true })
 
 
 
-      			vim.treesitter.language.register("html", "htmlangular")
-      			vim.o.foldmethod = "indent"
-      			vim.o.foldenable = true
-      			vim.o.foldlevel = 99
-      			vim.o.foldlevelstart = 99
-      			'';
+            			vim.treesitter.language.register("html", "htmlangular")
+            			vim.o.foldmethod = "indent"
+            			vim.o.foldenable = true
+            			vim.o.foldlevel = 99
+            			vim.o.foldlevelstart = 99
+            			'';
   };
 
 }

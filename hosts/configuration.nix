@@ -69,6 +69,7 @@
   systemd.settings.Manager = {
     RebootWatchdogSec = "60";
     RuntimeWatchdogSec = "60";
+    WatchdogDevice = "/dev/watchdog1";
   };
 
   # Select internationalisation properties.
@@ -96,7 +97,7 @@
     pulseaudio.enable = false;
     printing.enable = true;
     # DisplayLink support for docking station
-    xserver.videoDrivers = [ "displaylink" "modesetting" ];
+    # xserver.videoDrivers = [ "displaylink" "modesetting" ];
     # onedrive = {
     # 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
     # 	monitor = true;

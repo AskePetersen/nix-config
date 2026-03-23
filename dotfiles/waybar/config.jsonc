@@ -10,12 +10,12 @@
 	"format-critical": "{temperatureC}°C {icon}",
 	"format": "{icon} {temperatureC}°C",
 	"format-icons": [""],
-	"interval": 2
+	"interval": 1
   },
   "cpu": {
     "format": "  {usage}%",
     "tooltip": false,
-	"interval": 5
+	"interval": 1
   },
   "clock": {
     "format": "<span foreground='#f5c2e7'>   </span>{:%a %d/%m %H:%M:%S}",

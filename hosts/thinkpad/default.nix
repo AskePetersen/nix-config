@@ -41,17 +41,13 @@
     nodePackages.typescript
     nodePackages.typescript-language-server
     #GAMING
-    lutris
-    wine
+    steam
+    discord
+    # lutris
+    # protonplus
+    # protonup-rs
     android-studio
     jdk17
-    # protobuf
-    # # VULKAN
-    # vulkan-loader
-    # vulkan-headers
-    # vulkan-tools
-    # vulkan-validation-layers
-    protonvpn-gui
   ];
   # hyprland.enable = true;
 }

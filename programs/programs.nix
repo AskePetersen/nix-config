@@ -4,7 +4,7 @@ with host;
 
 {
   programs = {
-    steam.enable = false;
+    steam.enable = true;
     hyprland = {
       enable = true;
       xwayland.enable = true;
