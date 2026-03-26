@@ -97,7 +97,8 @@
     pulseaudio.enable = false;
     printing.enable = true;
     # DisplayLink support for docking station
-    # xserver.videoDrivers = [ "displaylink" "modesetting" ];
+    xserver.videoDrivers = [ "displaylink" "modesetting" ];
+    xserver.drivers = [{ name = "displaylink"; modules = []; driverName = "modesetting"; display = true; }];
     # onedrive = {
     # 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
     # 	monitor = true;
@@ -264,6 +265,7 @@
     google-cloud-sdk
     displaylink # DisplayLink driver for docking station
     kdePackages.kolourpaint
+    jq # jq is a command-line JSON processor, we use it in our monitor script
   ];
 
 

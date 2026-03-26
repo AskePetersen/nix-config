@@ -4,3 +4,5 @@ ideapad.sh
 thinkpad.sh
 # dotfiles/hypr/hyprland-monitors/localmonitor.conf
 backup/
+home-monitor.sh
+work-monitor.sh
