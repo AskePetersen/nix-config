@@ -2,6 +2,89 @@
 { config, lib, pkgs, stable, inputs, vars, ... }:
 
 {
+  environment.systemPackages = with pkgs; [
+    # Create a desktop entry that opens text files in kitty with proper nvim
+    (pkgs.makeDesktopItem {
+      name = "nvim-kitty";
+      desktopName = "Neovim (Kitty)";
+      exec = "${pkgs.kitty}/bin/kitty -e nvim %F";
+      terminal = false;
+      icon = "nvim";
+      mimeTypes = [ "text/plain" "text/x-python" "text/x-c" "text/html" "text/css" "text/javascript" ];
+      categories = [ "Development" "TextEditor" ];
+    })
+    mesa # used for some hyprland conf
+    libdrm # used for some hyprland conf
+    nmap
+    # google-chrome
+    # tmux
+    # python313
+    # cutter
+    #   (python313.withPackages (ps: with ps; [
+    # 	pwntools
+    # 	capstone
+    # 	keystone-engine
+    # 	unicorn
+    #   ]))
+    feh # Image viewer
+    slack
+    qalculate-qt
+    file # Just the findcommand
+    catppuccin-cursors.frappeBlue # my neat cursor
+    # texliveFull # Den har alt latex. One day when we need it
+    bitwarden-desktop # password manager. kæmpe bis
+    zathura # vim pdf-viewer
+    htop # se kørende processor
+    blueman # bluetooth
+    networkmanagerapplet # nm-connection-editor for waybar network click
+    # thunderbird
+    # bluez
+    # fprintd # fingerscanning
+    pavucontrol # sound control
+    starship # terminal jizz
+    brightnessctl
+    # grimblast # Screenshot
+    # hyprcursor # Cursor
+    hypridle
+    # hyprland
+    hyprpaper # Wallpaper
+    hyprshot
+    kitty
+    libnotify
+    # libreoffice
+    nautilus
+    gvfs # USB drives
+    gnome-disk-utility # USB drives
+    nwg-look # change the look of hyprland?
+    swaynotificationcenter
+    waybar
+    wl-clipboard # Clipboard
+    wlr-randr # Monitor Settings
+    wofi
+    # xdg-desktop-portal-hyprland
+    xwayland # X session
+    hyprlock
+    # discord
+    git
+    grub2
+    catppuccin-grub
+    (catppuccin-sddm.override {
+      flavor = "mocha";
+      font = "JetBrainsMono Nerd Font";
+      fontSize = "16";
+      background = "${../dotfiles/hypr/wallpapers/1366123.jpg}";
+    })
+    # libsForQt5.breeze-grub
+    wget
+    google-cloud-sdk
+    displaylink # DisplayLink driver for docking station
+    kdePackages.kolourpaint
+    jq # jq is a command-line JSON processor, we use it in our monitor script
+    kdePackages.merkuro
+    qimgv
+    wowup-cf # Curseforge for wow
+  ];
+
   imports = (
     import ../programs
     # import ../packages
@@ -98,7 +181,7 @@
     printing.enable = true;
     # DisplayLink support for docking station
     xserver.videoDrivers = [ "displaylink" "modesetting" ];
-    xserver.drivers = [{ name = "displaylink"; modules = []; driverName = "modesetting"; display = true; }];
+    xserver.drivers = [{ name = "displaylink"; modules = [ ]; driverName = "modesetting"; display = true; }];
     # onedrive = {
     # 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
     # 	monitor = true;
@@ -107,7 +190,7 @@
       gdm.enable = false;
       sddm = {
         enable = true;
-        theme = "catppuccin-mocha";
+        theme = "catppuccin-mocha-mauve";
         package = pkgs.kdePackages.sddm;
       };
       sessionPackages = [ pkgs.hyprland ];
@@ -145,7 +228,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.aske = {
     isNormalUser = true;
-    extraGroups = [ "plugdev" "networkmanager" "wheel" ];
+    extraGroups = [ "plugdev" "networkmanager" "wheel" "dialout" ];
     # packages = with pkgs; [
     #  thunderbird
     # ];
@@ -189,84 +272,6 @@
 
 
   virtualisation.docker.enable = true;
-  environment.systemPackages = with pkgs; [
-    # Create a desktop entry that opens text files in kitty with proper nvim
-    (pkgs.makeDesktopItem {
-      name = "nvim-kitty";
-      desktopName = "Neovim (Kitty)";
-      exec = "${pkgs.kitty}/bin/kitty -e nvim %F";
-      terminal = false;
-      icon = "nvim";
-      mimeTypes = [ "text/plain" "text/x-python" "text/x-c" "text/html" "text/css" "text/javascript" ];
-      categories = [ "Development" "TextEditor" ];
-    })
-    mesa # used for some hyprland conf
-    libdrm # used for some hyprland conf
-    nmap
-    # google-chrome
-    # tmux
-    # python313
-    # cutter
-    #   (python313.withPackages (ps: with ps; [
-    # 	pwntools
-    # 	capstone
-    # 	keystone-engine
-    # 	unicorn
-    #   ]))
-    feh # Image viewer
-    slack
-    qalculate-qt
-    file # Just the findcommand
-    catppuccin-cursors.frappeBlue # my neat cursor
-    # texliveFull # Den har alt latex. One day when we need it
-    bitwarden-desktop # password manager. kæmpe bis
-    zathura # vim pdf-viewer
-    htop # se kørende processor
-    blueman # bluetooth
-    # thunderbird
-    # bluez
-    # fprintd # fingerscanning
-    pavucontrol # sound control
-    starship # terminal jizz
-    brightnessctl
-    # grimblast # Screenshot
-    # hyprcursor # Cursor
-    hypridle
-    # hyprland
-    hyprpaper # Wallpaper
-    hyprshot
-    kitty
-    libnotify
-    # libreoffice
-    nautilus
-    gvfs # USB drives
-    gnome-disk-utility # USB drives
-    nwg-look # change the look of hyprland?
-    swaynotificationcenter
-    waybar
-    wl-clipboard # Clipboard
-    wlr-randr # Monitor Settings
-    wofi
-    # xdg-desktop-portal-hyprland
-    xwayland # X session
-    hyprlock
-    # discord
-    git
-    grub2
-    catppuccin-grub
-    (catppuccin-sddm.override {
-      flavor = "mocha";
-      font = "JetBrainsMono Nerd Font";
-      fontSize = "16";
-      background = "${../dotfiles/hypr/wallpapers/1366123.jpg}";
-    })
-    # libsForQt5.breeze-grub
-    wget
-    google-cloud-sdk
-    displaylink # DisplayLink driver for docking station
-    kdePackages.kolourpaint
-    jq # jq is a command-line JSON processor, we use it in our monitor script
-  ];
 
 
   system.stateVersion = "24.11"; # Did you read the comment?

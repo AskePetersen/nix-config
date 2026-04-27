@@ -1,144 +1,88 @@
-@import "mocha.css"; 
+@import "mocha.css";
 
 * {
-    font-family: "MesloLGS Nerd Font Mono Bold";
-    font-size: 16px;
+    font-family: "MesloLGS Nerd Font Mono";
+    font-size: 14px;
     min-height: 0;
-    font-weight: bold;
 }
 
 window#waybar {
     background: transparent;
-    background-color: @crust;
-    color: @overlay0;
-    transition-property: background-color;
-    transition-duration: 0.1s;
-    border-bottom: 1px solid @overlay1;
+    color: @text;
 }
 
-#window {
-    margin: 8px;
-    padding-left: 8px;
-    padding-right: 8px;
+/* Pill shape for each module group */
+/* .modules-center, */
+.modules-left,
+.modules-right {
+    background-color: #0a1f0a;
+    border-radius: 12px;
+    padding: 2px 6px;
+    margin: 2px 0;
 }
 
-button {
-    box-shadow: inset 0 -3px transparent;
-    border: none;
-    border-radius: 0;
-}
+/* Center pill - hide when no window is focused */
+/* #window { */
+/*     padding: 0 12px; */
+/*     color: @subtext1; */
+/* } */
+/**/
+/* window#waybar .modules-center.empty { */
+/*     background: transparent; */
+/*     padding: 0; */
+/*     margin: 0; */
+/* } */
 
-button:hover {
-    background: inherit;
-    color: @mauve;
-    border-top: 2px solid @mauve;
-}
-
+/* Workspace buttons */
 #workspaces button {
-    padding: 0 4px;
+    padding: 0 6px;
+    color: @overlay0;
+    border: none;
+    border-radius: 8px;
+    margin: 2px;
 }
 
-#workspaces button.focused {
-    background-color: rgba(0, 0, 0, 0.3);
-    color: @rosewater;
-    border-top: 2px solid @rosewater;
+#workspaces button:hover {
+    background: alpha(@mauve, 0.2);
+    color: @mauve;
+    border: none;
 }
 
 #workspaces button.active {
-    background-color: rgba(0, 0, 0, 0.3);
+    background: alpha(@mauve, 0.3);
     color: @mauve;
-    border-top: 2px solid @mauve;
 }
 
 #workspaces button.urgent {
-    background-color: #eb4d4b;
-}
-
-#pulseaudio,
-#clock,
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#wireplumber,
-#tray,
-#network,
-#mode,
-#scratchpad {
-  margin-top: 2px;
-  margin-bottom: 2px;
-  margin-left: 4px;
-  margin-right: 4px;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#clock {
-    color: @maroon;
-    border-bottom: 2px solid @maroon;
-}
-
-#clock.date {
-    color: @mauve;
-    border-bottom: 2px solid @mauve;
-}
-
-#pulseaudio {
-    color: @blue;
-    border-bottom: 2px solid @blue;
-}
-
-#bluetooth {
-	color: @teal;
-	border-bottom: 2px solid @teal;
-}
-
-#cpu {
-	color: @rosewater;
-	border-bottom: 2px solid @rosewater;
-}
-
-
-#network {
-    color: @yellow;
-    border-bottom: 2px solid @yellow;
-}
-
-#temperature {
-	color: @red;
-    border-bottom: 2px solid @red;
-}
-
-
-#idle_inhibitor {
-    margin-right: 12px;
-    color: #7cb342;
-}
-
-#idle_inhibitor.activated {
+    background: alpha(@red, 0.3);
     color: @red;
 }
 
-#battery {
-    color: @green;
-    border-bottom: 2px solid @green;
+/* Right-side modules */
+#temperature,
+#cpu,
+#bluetooth,
+#network,
+#pulseaudio,
+#battery,
+#clock {
+    padding: 0 8px;
+    margin: 2px 1px;
+    border-radius: 8px;
 }
 
-/* If workspaces is the leftmost module, omit left margin */
-.modules-left>widget:first-child>#workspaces {
-    margin-left: 0;
-}
+#temperature { color: @peach; }
+#cpu { color: @rosewater; }
+#bluetooth { color: @teal; }
+#network { color: @yellow; }
+#pulseaudio { color: @blue; }
+#battery { color: @green; }
+#clock { color: @lavender; }
 
-/* If workspaces is the rightmost module, omit right margin */
-.modules-right>widget:last-child>#workspaces {
-    margin-right: 0;
-}
+/* Battery states */
+#battery.warning { color: @yellow; }
+#battery.critical { color: @red; }
+#battery.charging { color: @green; }
 
-#custom-vpn {
-    color: @lavender;
-    border-radius: 15px;
-    padding-left: 6px;
-    padding-right: 6px;
-}
+/* Temperature critical */
+#temperature.critical { color: @red; }
