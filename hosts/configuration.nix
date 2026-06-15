@@ -13,6 +13,7 @@
       mimeTypes = [ "text/plain" "text/x-python" "text/x-c" "text/html" "text/css" "text/javascript" ];
       categories = [ "Development" "TextEditor" ];
     })
+    usbutils # to do something like lsusb
     mesa # used for some hyprland conf
     libdrm # used for some hyprland conf
     nmap

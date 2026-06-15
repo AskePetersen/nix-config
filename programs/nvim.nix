@@ -415,7 +415,7 @@
         enable = true;
         settings = {
           window.width = 35;
-          closeIfLastWindow = true;
+          close_if_last_window = true;
           extraOptions = {
             filesystem = {
               filtered_items = {
@@ -496,6 +496,9 @@
       telescope = {
         enable = true;
         settings = {
+          defaults = {
+            path_display = [ "absolute" ];
+          };
           pickers.find_files = {
             hidden = true;
           };
