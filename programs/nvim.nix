@@ -56,7 +56,7 @@
     };
 
     # Red squiggly lines
-    virtual_text = true;
+    # virtual_text = true;
     diagnostic.settings = {
       signs = true;
       underline = true;
@@ -273,17 +273,7 @@
       {
         # search and replace current word
         key = "<leader>s";
-        action = ":%s/<C-r><C-w>//gI<Left><Left><Left>";
-      }
-      {
-        # search and replace current word and down
-        key = "<leader>sd";
-        action = ":.,$s/<C-r><C-w>//gI<Left><Left><Left>";
-      }
-      {
-        # search and replace current word and up
-        key = "<leader>su";
-        action = ":0,.$s/<C-r><C-w>//gI<Left><Left><Left>";
+        action = ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI";
       }
       {
         key = "<leader>w";

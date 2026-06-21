@@ -13,6 +13,7 @@
       mimeTypes = [ "text/plain" "text/x-python" "text/x-c" "text/html" "text/css" "text/javascript" ];
       categories = [ "Development" "TextEditor" ];
     })
+    zapzap # Whatsapp client
     usbutils # to do something like lsusb
     mesa # used for some hyprland conf
     libdrm # used for some hyprland conf
@@ -195,6 +196,11 @@
         package = pkgs.kdePackages.sddm;
       };
       sessionPackages = [ pkgs.hyprland ];
+      # hyprland 0.55+ ships a uwsm-managed session file too, and SDDM would
+      # auto-pick it (sorts first). uwsm isn't enabled here, so its
+      # bindpid user unit is missing and the session dies right after login.
+      # Pin the plain direct-launch Hyprland session instead.
+      defaultSession = "hyprland";
     };
   };
 
@@ -251,6 +257,11 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10"
+    "nodejs-20.20.2"
+    "nodejs-slim-20.20.2"
+  ];
   environment.shellAliases = { vim = "nvim"; };
 
 

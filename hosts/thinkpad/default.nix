@@ -35,11 +35,11 @@
     eslint
     nest-cli
     nodejs_20
-    nodePackages.localtunnel
-    nodePackages.intelephense
-    nodePackages.prettier
-    nodePackages.typescript
-    nodePackages.typescript-language-server
+    localtunnel
+    intelephense
+    prettier
+    typescript
+    typescript-language-server
     #GAMING
     steam
     discord
