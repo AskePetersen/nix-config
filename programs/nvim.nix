@@ -56,11 +56,10 @@
     };
 
     # Red squiggly lines
-    # virtual_text = true;
     diagnostic.settings = {
+      virtual_text = true;
       signs = true;
       underline = true;
-      update_in_insert = true;
     };
 
     globals = {
@@ -70,13 +69,20 @@
     keymaps = [
       {
         mode = "n";
-        key = "<leader>u";
-        action = ":UndotreeToggle<CR>";
+        key = "<leader>gb";
+        action = "<CMD>Gitsigns blame_line<CR>";
+        options.desc = "Git blame line (popup)";
       }
       {
-        mode = "i";
-        key = "<C-h>";
-        action = "<BS>";
+        mode = "n";
+        key = "<leader>gB";
+        action = "<CMD>Gitsigns blame<CR>";
+        options.desc = "Git blame file";
+      }
+      {
+        mode = "n";
+        key = "<leader>u";
+        action = ":UndotreeToggle<CR>";
       }
       {
         key = "<leader>n";
@@ -90,14 +96,26 @@
       {
         mode = "n";
         key = "gd";
-        action = "<CMD>lua vim.lsp.buf.hover()<CR>zz";
-        options.desc = "Show lsp definition in floating window";
+        action = "<CMD>lua vim.lsp.buf.definition()<CR>zz";
+        options.desc = "Load lsp definition in new buffer";
+      }
+      {
+        mode = "n";
+        key = "gI";
+        action = "<CMD>lua vim.lsp.buf.implementation()<CR>";
+        options.desc = "Implementation";
+      }
+      {
+        mode = "n";
+        key = "<leader>D";
+        action = "<CMD>lua vim.lsp.buf.type_definition()<CR>";
+        options.desc = "Type definition";
       }
       {
         mode = "n";
         key = "gD";
-        action = "<CMD>lua vim.lsp.buf.definition()<CR>";
-        options.desc = "Load lsp definition in new buffer";
+        action = "<CMD>lua vim.lsp.buf.hover()<CR>";
+        options.desc = "open lsp definition in floating window";
       }
       {
         mode = "n";
@@ -144,10 +162,6 @@
         mode = "v";
         key = "<tab>";
         action = ">gv";
-      }
-      {
-        key = "½";
-        action = ":split v<cr>";
       }
       {
         # allows us to move lines up and down in visual mode with j and k
@@ -202,16 +216,6 @@
         # keeps us centered when we search
         key = "n";
         action = "nzzzv";
-      }
-      {
-        # keeps us centered when we search
-        key = "[";
-        action = "[zzzv";
-      }
-      {
-        # keeps us centered when we search
-        key = "]";
-        action = "]zzzv";
       }
       {
         # keeps us centered when we search
@@ -273,7 +277,8 @@
       {
         # search and replace current word
         key = "<leader>s";
-        action = ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI";
+        # action = ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI";
+        action = ":%s/\<C-r><C-w>\/<C-r><C-w>/gI";
       }
       {
         key = "<leader>w";
@@ -305,6 +310,8 @@
         key = "<C-l>";
         action = "<Del>";
       }
+      # Window navigation (<C-hjkl>) is provided by vim-tmux-navigator,
+      # which crosses seamlessly between nvim splits and tmux panes.
       {
         # Display current file in bufer?
         mode = "n";
@@ -355,6 +362,7 @@
     ];
 
     plugins = {
+      tmux-navigator.enable = true; # move between windows with <c-hjkl> tmux and nvim windows
       # vertical lines when indenting
       indent-blankline = {
         enable = true;
@@ -367,30 +375,82 @@
       lsp = {
         enable = true;
         servers = {
-          ts_ls.enable = true; # lsp server for typescript
-          pyright.enable = true; # lsp server for python
-          intelephense = {
-            # lsp server for python
+          nixd = {
+            enable = true; # for nix files
+            settings.nixd.formatting.command = [ "nixpkgs-fmt" ];
+          };
+          /* eslint = {
             enable = true;
-            package = null;
+            settings.workingDirectories = [{ mode = "auto"; }];
+          }; */
+          vtsls = {
+            enable = true; # lsp server for typescript
+            settings.typescript.inlayHints = {
+              parameterNames.enabled = "all";
+              variableTypes.enabled = true;
+              functionLikeReturnTypes.enabled = true;
+            };
+          };
+          angularls = {
+            enable = true;
           };
         };
       };
-      # AI - at some point when i get an api key
-      # avante = {
-      #	 enable = true;
-      # };
+
       # Autocomplete
       render-markdown = {
         enable = true;
       };
 
+      # autoclose html tags
+      ts-autotag = {
+        enable = true;
+      };
+
+      # To do daa to delete around a parameter a dif to delete in a function
+      treesitter-textobjects = {
+        autoLoad = true;
+        enable = true;
+        settings = {
+          move = {
+            enable = true;
+            set_jumps = true; # push jumps to the jumplist so <C-o>/<C-i> come back
+            goto_next_start = {
+              "]f" = "@function.outer";
+              "]a" = "@parameter.inner";
+            };
+            goto_previous_start = {
+              "[f" = "@function.outer";
+              "[a" = "@parameter.inner";
+            };
+          };
+          select =
+            {
+              enable = true;
+              keymaps = {
+                "if" = "@function.inner";
+                "af" = "@function.outer";
+                "ia" = "@parameter.inner";
+                "aa" = "@parameter.outer";
+              };
+            };
+        };
+      };
+
+      # used in cmp
+      luasnip = {
+        enable = true;
+        fromVscode = [ ];
+      };
+
+      # autocomplete 
       cmp = {
         enable = true;
         autoEnableSources = true;
         settings = {
           sources = [
             { name = "nvim_lsp"; }
+            { name = "luasnip"; }
             { name = "path"; }
             { name = "buffer"; }
           ];
@@ -400,17 +460,17 @@
           };
         };
       };
+
       # View a file explorer
       neo-tree = {
         enable = true;
         settings = {
           window.width = 35;
           close_if_last_window = true;
-          extraOptions = {
-            filesystem = {
-              filtered_items = {
-                visible = true;
-              };
+          filesystem = {
+            hijack_netrw_behavior = "disabled";
+            filtered_items = {
+              visible = true;
             };
           };
         };
@@ -434,26 +494,15 @@
           };
         };
       };
-      lint = {
-        enable = true;
-        lintersByFt = {
-          javascript = [ "eslint" ];
-          typescript = [ "eslint" ];
-          python = [ "pylint" ];
-        };
-      };
+
 
       copilot-lua = {
         enable = true;
         settings = {
           panel.enable = false; # don't show suggestions like cmp does.
-          suggestions = {
+          suggestion = {
             enabled = true;
             keymap.accept = "<M-l>";
-          };
-          panel = {
-            enabled = false;
-            auto_refresh = false;
           };
           filetypes.markdown = true;
           # filetypes.pluginDefault.markdown = true;
@@ -531,90 +580,52 @@
       undotree.enable = true;
     };
 
-    extraConfigLua = ''
-            			-- Lualine config
-            			require('lualine').setup({
-            			options = {
-            			disabled_filetypes = {
-            			statusline = { 'neo-tree' }
-            			},
-            			},
-            			sections = {
-            			lualine_x = {},
-            			},
-            			})
+    extraConfigLua =
+      ''-- Lualine config
+				require('lualine').setup({
+				options = {
+				disabled_filetypes = {
+				statusline = { 'neo-tree' }
+				},
+				},
+				sections = {
+				lualine_x = {},
+				},
+				})
 
-            			-- Automatically input what i've selected and insert it in telescope.
-            			vim.keymap.set('v', '<leader>fg', function()
-            			local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
-            			require('telescope.builtin').live_grep({ default_text = table.concat(text, '\n') })
-            			end, { desc = "Grep for visual selection" })
+				-- Automatically input what i've selected and insert it in telescope.
+				vim.keymap.set('v', '<leader>fg', function()
+				local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
+				require('telescope.builtin').live_grep({ default_text = table.concat(text, '\n') })
+				end, { desc = "Grep for visual selection" })
 
-            			vim.keymap.set('v', '<leader>ff', function()
-            			local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
-            			require('telescope.builtin').find_files({ default_text = table.concat(text, '\n') })
-            			end, { desc = "Find files with visual selection" })
-
-
-            			-- Textwrap 
-            			vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-      							pattern = { "*.md", "*.txt", "*.tex", "*.log" },
-      							callback = function()
-      								-- vim.cmd("setlocal spell spelllang=en_us")
-      								vim.opt_local.wrap = true
-      								vim.opt_local.linebreak = true
-      								vim.opt_local.list = false
-      							end,
-            			})
-
-            			-- Random keybindings
-            			vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition" })
-
-            			-- Harpoon shit
-            			local harpoon = require("harpoon")
-            			harpoon:setup()
-            			vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
-            			vim.keymap.set("n", "<leader>e", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-            			vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-            			vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
-            			vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
-            			vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
+				vim.keymap.set('v', '<leader>ff', function()
+				local text = vim.fn.getregion(vim.fn.getpos('v'), vim.fn.getpos('.'), {type = vim.fn.mode()})
+				require('telescope.builtin').find_files({ default_text = table.concat(text, '\n') })
+				end, { desc = "Find files with visual selection" })
 
 
-            			-- This is chatgpt shit, it sets up <leader>r to run the current file
-            			-- It also figures out what command to run
-            			function RunFile()
-            			local filetype = vim.bo.filetype
-            			local filename = vim.fn.expand("%")
-            			local cmd = ""
+				-- Textwrap 
+				vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+					pattern = { "*.md", "*.txt", "*.tex", "*.log" },
+					callback = function()
+						-- vim.cmd("setlocal spell spelllang=en_us")
+						vim.opt_local.wrap = true
+						vim.opt_local.linebreak = true
+						vim.opt_local.list = false
+					end,
+				})
 
-            			if filetype == "python" then
-            			cmd = "python3 " .. filename
-            			elseif filetype == "tex" then
-            			cmd = "xelatex " .. filename
-            			elseif filetype == "plaintex" then
-            			cmd = "xelatex " .. filename
-            			elseif filetype == "c" then
-            			cmd = "gcc " .. filename .. " -o output && ./output"
-            			else
-            			print("No run command defined for " .. filetype)
-            			return
-            			end
-
-            			-- Create a new terminal buffer
-            			vim.cmd("!" .. cmd)
-            			end
-
-            			vim.keymap.set("n", "<leader>r", RunFile, { noremap = true, silent = true })
-
-
-
-            			vim.treesitter.language.register("html", "htmlangular")
-            			vim.o.foldmethod = "indent"
-            			vim.o.foldenable = true
-            			vim.o.foldlevel = 99
-            			vim.o.foldlevelstart = 99
-            			'';
+				-- Harpoon shit
+				local harpoon = require("harpoon")
+				harpoon:setup()
+				for i = 1, 4 do -- set harpoon to <alt-1/2/3/4> such that we have c-h/j/k/l for window navigation
+					vim.keymap.set("n", "<M-" .. i .. ">", function()
+						harpoon:list():select(i)
+					end, { desc = "Harpoon file " .. i })
+				end
+				vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+				vim.keymap.set("n", "<leader>e", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+				vim.treesitter.language.register("html", "htmlangular") -- used to tell the editor that when the file is htmlangular you do html linting'';
   };
-
 }

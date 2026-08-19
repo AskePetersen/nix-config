@@ -4,6 +4,7 @@
 {
   environment.systemPackages = with pkgs; [
     # Create a desktop entry that opens text files in kitty with proper nvim
+    nixd # nix lsp
     (pkgs.makeDesktopItem {
       name = "nvim-kitty";
       desktopName = "Neovim (Kitty)";
@@ -85,6 +86,7 @@
     kdePackages.merkuro
     qimgv
     wowup-cf # Curseforge for wow
+    socat # used for language change notification script
   ];
 
   imports = (

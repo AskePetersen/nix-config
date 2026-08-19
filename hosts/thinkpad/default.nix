@@ -29,6 +29,7 @@
     glow # Used for reading markdown files
     mysql84 # used for dbeaver 
     pylint
+    python313
     nixpkgs-fmt
     black
     isort
