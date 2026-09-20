@@ -5,6 +5,7 @@
   environment = {
     systemPackages = with pkgs; [
       # Create a desktop entry that opens text files in kitty with proper nvim
+      /*
       nixd # nix lsp
       (pkgs.makeDesktopItem {
         name = "nvim-kitty";
@@ -73,6 +74,7 @@
       xwayland # X session
       hyprlock
       # discord
+       			*/
       git
       grub2
       catppuccin-grub
@@ -84,6 +86,7 @@
       })
       # libsForQt5.breeze-grub
       wget
+      /*
       google-cloud-sdk
       displaylink # DisplayLink driver for docking station
       kdePackages.kolourpaint
@@ -92,7 +95,9 @@
       qimgv
       wowup-cf # Curseforge for wow
       socat # used for language change notification script
+       			*/
     ];
+
 
     # NixOS doesn't link /share/bash into the system profile by default;
     # needed so .bashrc can source bash-preexec.sh from /run/current-system.
