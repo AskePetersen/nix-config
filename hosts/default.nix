@@ -32,6 +32,7 @@ in
 {
   ideapad = mkHost "ideapad";
   thinkpad = mkHost "thinkpad";
+  nitro = mkHost "nitro"; # Acer Nitro 100-50
 
   # Adding a new machine is one line: myDesktop = mkHost "myDesktop";
   # (plus a hosts/myDesktop/ directory with default.nix + hardware-configuration.nix)
