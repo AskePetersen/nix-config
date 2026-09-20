@@ -74,7 +74,7 @@
       xwayland # X session
       hyprlock
       # discord
-       			*/
+          			*/
       git
       grub2
       catppuccin-grub
@@ -95,7 +95,7 @@
       qimgv
       wowup-cf # Curseforge for wow
       socat # used for language change notification script
-       			*/
+          			*/
     ];
 
 
@@ -235,7 +235,7 @@
     pulseaudio.enable = false;
     printing.enable = true;
     # DisplayLink support for docking station
-    xserver.videoDrivers = [ "displaylink" "modesetting" ];
+    # xserver.videoDrivers = [ "displaylink" "modesetting" ];
     # onedrive = {
     # 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
     # 	monitor = true;
