@@ -4,16 +4,13 @@ with host;
 
 {
   programs = {
+    dconf.enable = true; # gsettings backend, needed for GTK theming
     steam.enable = true;
     hyprland = {
       enable = true;
       xwayland.enable = true;
       # package = hyprland.packages.${pkgs.system}.hyprland;
     };
-    # nm-applet = {
-    # 	enable = true;
-    # 	indicator = true;
-    # };
     thunderbird.enable = true;
     starship.enable = true;
     hyprlock.enable = true;

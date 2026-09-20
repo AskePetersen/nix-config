@@ -20,7 +20,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-claude.url = "github:nixos/nixpkgs/master"; # Dedicated input so claude-code can be updated on its own (master = newest builds)
     nixos-hardware.url = "github:nixos/nixos-hardware/master"; # Hardware Specific Configurations
 
     home-manager = {
@@ -28,16 +28,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    home-manager-stable = {
-      url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-
     nixvim = {
       url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = inputs @ { self, nixpkgs, nixos-hardware, nixpkgs-stable, home-manager, home-manager-stable, nixvim, ... }: # Function telling flake which inputs to use
+  outputs = inputs @ { self, nixpkgs, nixos-hardware, home-manager, nixvim, ... }: # Function telling flake which inputs to use
     let
       # Variables Used In Flake
       vars = {
@@ -49,18 +45,8 @@
 
     in
     {
-      nixosConfigurations = (
-        import ./hosts {
-          inherit (nixpkgs) lib;
-          inherit inputs nixpkgs nixpkgs-stable nixos-hardware home-manager nixvim vars;
-        }
-      );
-
-      homeConfiguration = (
-        import ./nix {
-          inherit (nixpkgs) lib;
-          inherit inputs nixpkgs nixpkgs-stable home-manager vars;
-        }
-      );
+      nixosConfigurations = import ./hosts {
+        inherit inputs nixpkgs home-manager nixvim vars;
+      };
     };
 }

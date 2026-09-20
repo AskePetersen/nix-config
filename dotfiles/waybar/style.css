@@ -40,6 +40,10 @@ window#waybar {
     border: none;
     border-radius: 8px;
     margin: 2px;
+    /* Fade from a transparent mauve rather than from `transparent`, which
+       would dip through black on the way in. */
+    background-color: alpha(@mauve, 0);
+    transition: background-color 200ms ease-out, color 200ms ease-out;
 }
 
 #workspaces button:hover {
@@ -64,11 +68,20 @@ window#waybar {
 #bluetooth,
 #network,
 #pulseaudio,
+#custom-caffeine,
 #battery,
-#clock {
+#clock,
+#custom-power {
     padding: 0 8px;
     margin: 2px 1px;
     border-radius: 8px;
+    /* GTK3 has no transform, so the hover effect is a background wash plus an
+       inset underline. Deliberately nothing that changes the box size -
+       animating padding or margin would shove the neighbouring modules around
+       every time the pointer crosses the bar. */
+    background-color: alpha(@surface0, 0);
+    box-shadow: inset 0 -2px 0 alpha(currentColor, 0);
+    transition: background-color 200ms ease-out, box-shadow 200ms ease-out;
 }
 
 #temperature { color: @peach; }
@@ -76,8 +89,30 @@ window#waybar {
 #bluetooth { color: @teal; }
 #network { color: @yellow; }
 #pulseaudio { color: @blue; }
+/* Off is the resting state, so it sits at overlay0 with the other furniture
+   rather than shouting a colour at you all day. Held reads as a warning:
+   something is deliberately overriding the idle timeouts. */
+#custom-caffeine { color: @overlay0; }
+#custom-caffeine.active { color: @peach; }
 #battery { color: @green; }
 #clock { color: @lavender; }
+#custom-power { color: @red; }
+
+/* Hover: background wash plus an underline in the module's own colour.
+   currentColor picks up each module's `color` declared above, so the accent
+   stays defined once - and a state colour (#battery.warning) carries through. */
+#temperature:hover,
+#cpu:hover,
+#bluetooth:hover,
+#network:hover,
+#pulseaudio:hover,
+#custom-caffeine:hover,
+#battery:hover,
+#clock:hover,
+#custom-power:hover {
+    background-color: alpha(@surface0, 0.9);
+    box-shadow: inset 0 -2px 0 currentColor;
+}
 
 /* Battery states */
 #battery.warning { color: @yellow; }

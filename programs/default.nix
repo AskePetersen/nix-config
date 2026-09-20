@@ -1,4 +1,4 @@
-[ 
+[
   # ./waybar.nix
   ./tmux.nix
   ./nvim.nix

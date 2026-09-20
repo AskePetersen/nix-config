@@ -5,10 +5,12 @@
   "margin-right": 10,
   "modules-left": ["hyprland/workspaces"],
   // "modules-center": ["hyprland/window"],
-  "modules-right": ["temperature", "cpu", "bluetooth", "network", "pulseaudio", "battery", "clock"],
+  "modules-right": ["temperature", "cpu", "bluetooth", "network", "pulseaudio", "custom/caffeine", "battery", "clock", "custom/power"],
   "temperature": {
-	"thermal-zone": 2,
-	"hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+	// CPU package sensor by stable device path (thermal-zone/hwmon numbers
+	// shuffle between boots and machines). Intel only — shows nothing on AMD.
+	"hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+	"input-filename": "temp1_input",
 	"critical-threshold": 80,
 	"format-critical": "{temperatureC}°C {icon}",
 	"format": "{icon} {temperatureC}°C",
@@ -34,28 +36,63 @@
     "format": "{icon}  {capacity}%",
     "format-warning": "{icon}  {capacity}%",
     "format-critical": "{icon}  {capacity}%",
-    "format-charging": "{capacity}%",
-    "format-plugged": "{capacity}%",
+    "format-charging": "{icon}  {capacity}%",
+    "format-plugged": "{icon}  {capacity}%",
     "format-alt": "{icon}  {time}",
+    // Left-click toggles the 80% / 100% charge limit, right-click just tells
+    // you which one is active. Takes over the click that would otherwise flip
+    // to format-alt - {time} is in the tooltip anyway.
+    "on-click": "~/nix-config/dotfiles/scripts/charge_control.sh",
+    "on-click-right": "~/nix-config/dotfiles/scripts/charge_control.sh status",
     "format-full": "{capacity}%",
-    "format-icons": ["", "", "", "", ""],
+    // Charging gets its own set: each glyph carries the bolt *and* the level,
+    // so plugging in changes the icon rather than just dropping the number.
+    "format-icons": {
+      "default": ["", "", "", "", ""],
+      "charging": ["󰢜", "󰂆", "󰂈", "󰂉", "󰂅"]
+    },
     "tooltip-format": "{time}"
   },
   "network": {
-    "format-wifi": "{essid}",
-    "format-ethernet": "󰤭 Disconnected",
-    "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "Disconnected",
-    "tooltip-format-wifi": "Signal Strenght: {signalStrength}%",
-    "on-click": "nm-connection-editor"
+    // Icon only - the SSID lives in the tooltip and in the picker.
+    // Bars scale with signal strength; same glyphs as wifi-menu.sh.
+    "format-icons": ["󰤟", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰈀",
+    "format-linked": "󰤫",
+    "format-disconnected": "󰖪",
+    "tooltip-format-wifi": "{essid}\n{signalStrength}%  -  {ipaddr}",
+    "tooltip-format-ethernet": "{ifname}\n{ipaddr}",
+    "tooltip-format-disconnected": "Disconnected",
+    "on-click": "~/nix-config/dotfiles/scripts/wifi-menu.sh"
   },
   "pulseaudio": {
-      "format": "{icon}  {volume}%",
+      // Icon only - the level pops up in the OSD while you're changing it,
+      // and sits in the tooltip the rest of the time.
+      "format": "{icon}",
       "format-muted": "",
       "format-icons": {
-          "default": ["", "", " "]
+          "default": ["", "", ""]
       },
+      "tooltip-format": "{desc}\n{volume}%",
       "on-click": "pavucontrol"
+  },
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip-format": "Lock, suspend, reboot or shut down",
+    "on-click": "~/nix-config/dotfiles/scripts/power-menu.sh"
+  },
+  "custom/caffeine": {
+    // Cup when idle timeouts are paused, empty cup when they're live. The
+    // signal is what makes the click feel instant; the interval is there so a
+    // lock taken by something else - a Claude Code hook, a long build - shows
+    // up on its own without anyone poking waybar.
+    "exec": "~/nix-config/dotfiles/scripts/caffeine.sh waybar",
+    "return-type": "json",
+    "interval": 10,
+    "signal": 8,
+    "on-click": "~/nix-config/dotfiles/scripts/caffeine.sh toggle",
+    "on-click-right": "~/nix-config/dotfiles/scripts/caffeine.sh status"
   },
   "hyprland/window": {
     "max-length": 40,

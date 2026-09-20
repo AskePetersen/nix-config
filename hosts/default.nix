@@ -1,61 +1,38 @@
-{ inputs, nixpkgs, nixpkgs-stable, nixos-hardware, home-manager, nixvim, vars, ... }:
+{ inputs, nixpkgs, home-manager, nixvim, vars, ... }:
 # This file contains programs and packages across all systems
 let
   system = "x86_64-linux";
+  inherit (nixpkgs) lib;
 
-  pkgs = import nixpkgs {
-    inherit system;
-    config.allowUnfree = true;
-  };
+  mkHost = hostName:
+    lib.nixosSystem {
+      inherit system;
+      specialArgs = {
+        inherit inputs system vars;
+        host = { inherit hostName; };
+      };
+      modules = [
+        nixvim.nixosModules.nixvim
+        (./. + "/${hostName}")
+        ./configuration.nix
 
-  stable = import nixpkgs-stable {
-    inherit system;
-    config.allowUnfree = true;
-  };
-
-  lib = nixpkgs.lib;
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useGlobalPkgs = true;
+            useUserPackages = true;
+            # If a file/dir already exists where home-manager wants a symlink,
+            # move it aside as *.hm-bak instead of failing the activation.
+            backupFileExtension = "hm-bak";
+          };
+        }
+      ];
+    };
 in
 {
-  ideapad = lib.nixosSystem {
-    inherit system;
-    specialArgs = {
-      inherit inputs system stable vars;
-      host = {
-        hostName = "ideapad";
-      };
-    };
-    modules = [
-      nixvim.nixosModules.nixvim
-      ./ideapad
-      ./configuration.nix
+  ideapad = mkHost "ideapad";
+  thinkpad = mkHost "thinkpad";
 
-      home-manager.nixosModules.home-manager
-      {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-      }
-    ];
-  };
-  thinkpad = lib.nixosSystem {
-    inherit system;
-    specialArgs = {
-      inherit inputs system stable vars;
-      host = {
-        hostName = "thinkpad";
-      };
-    };
-    modules = [
-      nixvim.nixosModules.nixvim
-      ./thinkpad
-      ./configuration.nix
-
-      home-manager.nixosModules.home-manager
-      {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-      }
-    ];
-  };
-
-  # This is where i would put my configurations for my desktop at home
+  # Adding a new machine is one line: myDesktop = mkHost "myDesktop";
+  # (plus a hosts/myDesktop/ directory with default.nix + hardware-configuration.nix)
 }

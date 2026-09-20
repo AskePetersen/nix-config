@@ -7,43 +7,39 @@ bind 'set show-mode-in-prompt on'
 bind 'set vi-ins-mode-string " [I] "'
 bind 'set vi-cmd-mode-string " [N] "'
 
-# Command completion notifications for unfocused terminals
-__notify_command_complete() {
-    local last_exit=$?
-    local last_cmd=$(history 1 | sed 's/^[ ]*[0-9]*[ ]*//')
-    
-    # Only notify if terminal is not focused (check if kitty is not the active window)
-    if ! hyprctl activewindow -j | grep -q '"class": "kitty"'; then
-        if [ $last_exit -eq 0 ]; then
-            notify-send -t 5000 "Command Completed ✓" "$last_cmd"
-        else
-            notify-send -t 5000 -u critical "Command Failed ✗" "$last_cmd (exit code: $last_exit)"
-        fi
-    fi
-}
+# bash-preexec (installed via configuration.nix) gives reliable
+# preexec/precmd hooks. A hand-rolled DEBUG trap also fires for
+# PROMPT_COMMAND itself, which resets the timer and clobbers $?.
+[ -f /run/current-system/sw/share/bash/bash-preexec.sh ] &&
+    . /run/current-system/sw/share/bash/bash-preexec.sh
 
-# Set up preexec and precmd hooks
-__bash_preexec() {
-    # Save command start time
+# Notify when a command that ran >= 5s finishes while the terminal is unfocused
+__notify_min_seconds=5
+
+__notify_preexec() {
     __cmd_start_time=$SECONDS
+    __cmd_string=$1
 }
 
-__bash_precmd() {
-    local last_exit=$?
-    # Only notify for commands that took more than 5 seconds
-    if [ ! -z "$__cmd_start_time" ]; then
-        local elapsed=$(($SECONDS - $__cmd_start_time))
-        if [ $elapsed -ge 5 ]; then
-            __notify_command_complete
+__notify_precmd() {
+    local last_exit=$? # bash-preexec restores the command's exit code for us
+    [ -z "$__cmd_start_time" ] && return
+    local elapsed=$((SECONDS - __cmd_start_time))
+    unset __cmd_start_time
+    [ "$elapsed" -lt "$__notify_min_seconds" ] && return
+
+    # Only notify if the terminal is not the focused window
+    if ! hyprctl activewindow -j 2>/dev/null | grep -q '"class": "kitty"'; then
+        if [ "$last_exit" -eq 0 ]; then
+            notify-send -t 5000 "Command Completed ✓" "$__cmd_string"
+        else
+            # No -u critical: swaync never expires those, whatever -t says
+            notify-send -t 3000 "Command Failed ✗" "$__cmd_string (exit code: $last_exit)"
         fi
-        unset __cmd_start_time
     fi
-    return $last_exit
 }
 
-# Set up the prompt command
-PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__bash_precmd"
+preexec_functions+=(__notify_preexec)
+precmd_functions+=(__notify_precmd)
 
-# Trap DEBUG to capture command before execution
-trap '__bash_preexec' DEBUG
 eval "$(starship init bash)"

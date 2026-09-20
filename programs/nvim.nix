@@ -1,5 +1,5 @@
 # Configuration for nvim
-{ config, lib, system, pkgs, stable, ... }:
+{ config, lib, system, pkgs, inputs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -12,6 +12,10 @@
   ];
 
   programs.nixvim = {
+    # We deliberately pin nixvim to our own nixpkgs (inputs.nixvim.inputs.nixpkgs.follows
+    # in flake.nix); stating it here suppresses nixvim's "affected by follows" warning.
+    nixpkgs.source = inputs.nixpkgs;
+
     colorschemes.catppuccin = {
       enable = true;
       settings.transparent_background = true;
@@ -275,10 +279,9 @@
         options.desc = "Paste without overwriting register";
       }
       {
-        # search and replace current word
+        # search and replace current word (\\< \\> = whole-word boundaries)
         key = "<leader>s";
-        # action = ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI";
-        action = ":%s/\<C-r><C-w>\/<C-r><C-w>/gI";
+        action = ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI";
       }
       {
         key = "<leader>w";
@@ -379,10 +382,6 @@
             enable = true; # for nix files
             settings.nixd.formatting.command = [ "nixpkgs-fmt" ];
           };
-          /* eslint = {
-            enable = true;
-            settings.workingDirectories = [{ mode = "auto"; }];
-          }; */
           vtsls = {
             enable = true; # lsp server for typescript
             settings.typescript.inlayHints = {
@@ -495,11 +494,12 @@
         };
       };
 
-
       copilot-lua = {
         enable = true;
         settings = {
-          panel.enable = false; # don't show suggestions like cmp does.
+          # `enabled`, not `enable` - this is passed straight through to
+          # copilot.lua's setup(), which ignores keys it doesn't know.
+          panel.enabled = false; # don't show suggestions like cmp does.
           suggestion = {
             enabled = true;
             keymap.accept = "<M-l>";
