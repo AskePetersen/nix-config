@@ -4,11 +4,5 @@
   imports = [
     ./hardware-configuration.nix
   ];
-  services = {
-    xserver = {
-      enable = true;
-      videoDrivers = [ "modesetting" ];
-    };
-  };
 }
 
