@@ -31,6 +31,8 @@
 
   environment.systemPackages = with pkgs; [
     claude-code
+    ast-grep # structural code search/rewrite (`sg`)
+    gh # GitHub CLI
     openssl
     postman
     sshfs # Litteraly best tool ever for remote editing
