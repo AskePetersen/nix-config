@@ -42,6 +42,7 @@
       backup = false;
       undofile = true;
       hlsearch = true;
+      ignorecase = true; # case-insensitive search
       incsearch = false; # Neovim jumps to the first match immediately
       termguicolors = true;
       scrolloff = 8;
@@ -70,7 +71,25 @@
       mapleader = " ";
       maplocalleader = " ";
     };
-    keymaps = [
+    keymaps =
+      (builtins.concatMap (nav: [
+        {
+          mode = "n";
+          key = nav.key;
+          action = "<CMD>TmuxNavigate${nav.dir}<CR>";
+        }
+        {
+          mode = "t";
+          key = nav.key;
+          action = "<C-\\><C-n><CMD>TmuxNavigate${nav.dir}<CR>";
+        }
+      ]) [
+        { key = "<C-h>"; dir = "Left"; }
+        { key = "<C-j>"; dir = "Down"; }
+        { key = "<C-k>"; dir = "Up"; }
+        { key = "<C-l>"; dir = "Right"; }
+      ])
+      ++ [
       {
         mode = "n";
         key = "<leader>gb";
@@ -365,7 +384,13 @@
     ];
 
     plugins = {
-      tmux-navigator.enable = true; # move between windows with <c-hjkl> tmux and nvim windows
+      tmux-navigator = {
+        enable = true; # move between windows with <c-hjkl> tmux and nvim windows
+        # The plugin's own terminal maps use Vim's <C-w> prefix, which Neovim
+        # passes through to the terminal (lazygit then runs ":TmuxNavigate*" as
+        # a shell command). The maps are defined in `keymaps` instead.
+        settings.no_mappings = 1;
+      };
       # vertical lines when indenting
       indent-blankline = {
         enable = true;

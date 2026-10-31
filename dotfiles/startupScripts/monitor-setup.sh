@@ -3,8 +3,10 @@
 #
 #   monitor-setup.sh          auto-detect from what is connected
 #   monitor-setup.sh laptop   force laptop panel only, disable everything else
+#   monitor-setup.sh external turn the laptop panel off, keep external screens
 #
-# Bound to SUPER+SHIFT+M / SUPER+SHIFT+T and run once at Hyprland startup.
+# Bound to SUPER+SHIFT+M / SUPER+SHIFT+T / SUPER+SHIFT+E and run once at
+# Hyprland startup.
 
 internal=eDP-1
 internal_mode="3840x2160@60,0x0,2"
@@ -35,10 +37,26 @@ laptop_only() {
     notify-send "Monitors" "Laptop only"
 }
 
-if [ "${1:-auto}" = "laptop" ]; then
-    laptop_only
-    exit 0
-fi
+# Laptop panel off. Externals that are already on keep their layout; any
+# that were disabled come back at their preferred mode.
+external_only() {
+    local externals
+    externals=$(hyprctl monitors all -j | jq -r --arg m "$internal" '.[] | select(.name != $m) | .name')
+    if [ -z "$externals" ]; then
+        notify-send -u critical "Monitors" "No external screen - keeping $internal on"
+        return 1
+    fi
+    while read -r mon; do
+        enabled "$mon" || hyprctl keyword monitor "$mon,preferred,auto,1"
+    done <<< "$externals"
+    disable_after "$internal" "$(head -n1 <<< "$externals")"
+    notify-send "Monitors" "Laptop screen off"
+}
+
+case "${1:-auto}" in
+    laptop)   laptop_only; exit 0 ;;
+    external) external_only; exit $? ;;
+esac
 
 connected=$(hyprctl monitors all -j | jq -r '.[].name')
 

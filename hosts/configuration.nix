@@ -80,7 +80,7 @@
         flavor = "mocha";
         font = "JetBrainsMono Nerd Font";
         fontSize = "16";
-        background = "${../dotfiles/hypr/wallpapers/1366123.jpg}";
+        background = "${../dotfiles/hypr/wallpapers/background.png}";
       })
       # libsForQt5.breeze-grub
       wget
@@ -108,7 +108,11 @@
       WLR_NO_HARDWARE_CURSORS = "1";
     };
 
-    shellAliases = { vim = "nvim"; };
+    shellAliases = {
+      vim = "nvim";
+      laptop-off = "~/nix-config/dotfiles/startupScripts/monitor-setup.sh external";
+      laptop-on = "~/nix-config/dotfiles/startupScripts/monitor-setup.sh";
+    };
   };
 
   # import ../packages
@@ -229,6 +233,17 @@
     fprintd.enable = true;
     pulseaudio.enable = false;
     printing.enable = true;
+    # Low-battery protection: without upower nothing acts on battery level, so
+    # the laptop runs until the hardware cutoff and fully drains the battery.
+    # PowerOff is the safe default; hosts with working resume override it to
+    # Hibernate (see hosts/thinkpad/default.nix).
+    upower = {
+      enable = true;
+      percentageLow = 15;
+      percentageCritical = 7;
+      percentageAction = 5;
+      criticalPowerAction = lib.mkDefault "PowerOff";
+    };
     # DisplayLink support for docking station
     xserver.videoDrivers = [ "displaylink" "modesetting" ];
     # onedrive = {

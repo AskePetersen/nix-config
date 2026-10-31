@@ -9,6 +9,9 @@
   # Without this, hibernating writes the image but boots cold and loses the session.
   boot.resumeDevice = "/dev/disk/by-uuid/9040d67e-bfdb-43f4-ac81-88a58b182cfe"; # nvme0n1p3, 8.8G swap
 
+  # Resume works here, so hibernate at critical battery instead of powering off.
+  services.upower.criticalPowerAction = "Hibernate";
+
   # Android development lives on this machine only
   environment.sessionVariables = {
     JAVA_HOME = "${pkgs.jdk17}/lib/openjdk"; # for running android studio
