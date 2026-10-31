@@ -25,11 +25,13 @@
   services = {
     xserver = {
       enable = true;
-      videoDrivers = [ "modesetting" ];
+      # DisplayLink support for the docking station; displaylink must come first
+      videoDrivers = [ "displaylink" "modesetting" ];
     };
   };
 
   environment.systemPackages = with pkgs; [
+    displaylink # DisplayLink driver for docking station
     claude-code
     openssl
     postman

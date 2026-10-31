@@ -88,7 +88,6 @@
       wget
       /*
       google-cloud-sdk
-      displaylink # DisplayLink driver for docking station
       kdePackages.kolourpaint
       jq # jq is a command-line JSON processor, we use it in our monitor script
       kdePackages.merkuro
@@ -234,8 +233,6 @@
     fprintd.enable = true;
     pulseaudio.enable = false;
     printing.enable = true;
-    # DisplayLink support for docking station
-    # xserver.videoDrivers = [ "displaylink" "modesetting" ];
     # onedrive = {
     # 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
     # 	monitor = true;

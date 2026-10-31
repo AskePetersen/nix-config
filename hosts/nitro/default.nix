@@ -22,10 +22,7 @@
 
   services.xserver = {
     enable = true;
-    # configuration.nix lists displaylink+modesetting for the laptops' dock.
-    # There is no dock here, and nvidia has to be the only driver named or
-    # the X server / Hyprland will pick the wrong one.
-    videoDrivers = lib.mkForce [ "nvidia" ];
+    videoDrivers = [ "nvidia" ];
   };
 
   # Hyprland on the proprietary driver: route GL and VA-API through nvidia.
