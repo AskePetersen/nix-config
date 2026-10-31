@@ -37,9 +37,37 @@
   };
 
   environment.systemPackages = with pkgs; [
-    steam
     discord
+    google-chrome
+    claude-code
   ];
+
+  # Memory: 8 GB RAM and zram alone isn't enough headroom for games under
+  # Proton, so a disk swapfile backs zram up (zram keeps the higher priority).
+  # oomd watches user slices so runaway processes get killed instead of the
+  # whole desktop freezing.
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 8 * 1024;
+    }
+  ];
+  systemd.oomd.enableUserSlices = true;
+
+  # Let zram hold up to all of RAM uncompressed (~2.5-4 GB real when full),
+  # and tune the VM for it: swapping to zram is cheaper than dropping page
+  # cache, and readahead clustering only helps on disk swap.
+  zramSwap.memoryPercent = 100;
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 180;
+    "vm.page-cluster" = 0;
+  };
+
+  # Storage: the original M.2 NVMe drops off the PCIe bus ~40 s after power-on
+  # (CSTS=0xffffffff, "Disabling device after reset failure: -19") regardless
+  # of load or temperature, so the OS lives on a 2.5" SATA SSD instead. The
+  # NVMe can stay plugged in: the kernel gives up on it at boot and nothing
+  # here references it.
 
   system.stateVersion = "26.11"; # Did you read the comment?
 }
