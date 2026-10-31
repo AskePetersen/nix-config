@@ -7,17 +7,6 @@ This is my NixOS configuration
 # how to extract content of all files
 find . -type f -name "*.nix" -print -exec cat {} \; -exec echo -e "\n---\n" \; > all-nix-files.txt
 
-# tpm and tmux
-run 
-`git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
-`git clone https://github.com/tmux-plugins/tmux-resurrect.git ~/.tmux/plugins/tmux-resurrect` 
-and then run 
-`tmux source-file ~/.tmux.conf`
-
-# Terminal looks wierd:
-`starship preset gruvbox-rainbow -o ~/.config/starship.toml`
-restart pc to make it work
-
 # Missing packages
 		openssl
 		postman

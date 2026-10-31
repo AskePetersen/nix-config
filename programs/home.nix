@@ -27,6 +27,46 @@
         ".tmux.conf".source = link "tmux/tmux.conf";
         ".bashrc".source = link "bash/.bashrc";
         ".gitmessage".source = link "git/.gitmessage";
+        ".config/starship.toml".source = link "starship/starship.toml";
+        ".config/htop/htoprc".source = link "htop/htoprc";
+        ".config/qimgv/qimgv.conf".source = link "qimgv/qimgv.conf";
+        ".config/qimgv/theme.conf".source = link "qimgv/theme.conf";
+        ".claude/settings.json".source = link "claude/settings.json";
+        ".claude/statusline-command.sh".source = link "claude/statusline-command.sh";
+        ".claude/CLAUDE.md".source = link "claude/CLAUDE.md";
+
+        # Sourced at the end of tmux.conf. Plugins from nixpkgs instead of tpm,
+        # so every machine has them without a manual git clone.
+        ".config/tmux/plugins.conf".text = ''
+          run-shell ${pkgs.tmuxPlugins.resurrect.rtp}
+          run-shell ${pkgs.tmuxPlugins.vim-tmux-navigator.rtp}
+        '';
+      };
+
+      # Overrides the matching entries of the system-wide
+      # xdg.mime.defaultApplications in hosts/configuration.nix.
+      xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+          "text/html" = "google-chrome.desktop";
+          "x-scheme-handler/http" = "google-chrome.desktop";
+          "x-scheme-handler/https" = "google-chrome.desktop";
+          "x-scheme-handler/about" = "google-chrome.desktop";
+          "x-scheme-handler/unknown" = "google-chrome.desktop";
+          "x-scheme-handler/webcal" = "google-chrome.desktop";
+          "x-scheme-handler/mailto" = "thunderbird.desktop";
+          "message/rfc822" = "thunderbird.desktop";
+          "x-scheme-handler/mid" = "thunderbird.desktop";
+          "text/calendar" = "thunderbird.desktop";
+          "application/x-extension-ics" = "thunderbird.desktop";
+          "x-scheme-handler/webcals" = "thunderbird.desktop";
+          "x-scheme-handler/postman" = "postman.desktop";
+          "image/png" = "qimgv.desktop";
+          "image/jpeg" = "qimgv.desktop";
+          # Desktop file is written by Claude Code itself on first run.
+          "x-scheme-handler/claude-cli" = "claude-code-url-handler.desktop";
+          "x-scheme-handler/slack" = "slack.desktop";
+        };
       };
 
       gtk = {
@@ -66,8 +106,13 @@
         git = {
           enable = true;
           settings = {
+            user = {
+              name = "aske";
+              email = "aske98@live.com";
+            };
             commit.template = "${config.home.homeDirectory}/.gitmessage";
           };
+          ignores = [ "**/.claude/settings.local.json" ];
         };
         lazygit = {
           enable = true;

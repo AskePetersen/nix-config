@@ -16,6 +16,9 @@
       open = false; # open kernel modules are Turing and newer only
       modesetting.enable = true; # required for Wayland / Hyprland
       nvidiaSettings = true;
+      # Save and restore video memory across suspend via the driver's systemd
+      # hooks. Without it the display stays black after resume.
+      powerManagement.enable = true;
     };
     graphics.enable32Bit = true; # steam / proton
   };
@@ -37,12 +40,6 @@
     steam
     discord
   ];
-
-  # Storage: the original M.2 NVMe drops off the PCIe bus ~40 s after power-on
-  # (CSTS=0xffffffff, "Disabling device after reset failure: -19") regardless
-  # of load or temperature, so the OS lives on a 2.5" SATA SSD instead. The
-  # NVMe can stay plugged in: the kernel gives up on it at boot and nothing
-  # here references it.
 
   system.stateVersion = "26.11"; # Did you read the comment?
 }

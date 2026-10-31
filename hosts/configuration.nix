@@ -171,42 +171,10 @@
     };
   };
 
-  systemd = {
-    # `systemctl suspend-then-hibernate` sleeps to RAM first (instant resume) and
-    # falls through to hibernate after this long, so an idle laptop stops draining.
-    # hypridle suspends at 15min idle, so 10min here puts hibernate at 25min idle.
-    sleep.settings.Sleep.HibernateDelaySec = "10min";
+  # Laptop-only settings (battery, hibernate delay, fingerprint, local-time
+  # clock) live in hosts/laptop.nix, imported by thinkpad and ideapad.
 
-    settings.Manager = {
-      RebootWatchdogSec = "60";
-      RuntimeWatchdogSec = "60";
-      WatchdogDevice = "/dev/watchdog1";
-    };
-
-    # Battery conservation: cap charging at 80% on every boot, and make the
-    # sysfs node wheel-writable so charge_control.sh can toggle 80/100 without
-    # sudo. Toggling to 100% lasts until the next reboot, then it's back to 80.
-    services.battery-charge-threshold = {
-      description = "Cap battery charging at 80%";
-      wantedBy = [ "multi-user.target" ];
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = pkgs.writeShellScript "battery-charge-threshold" ''
-          f=/sys/class/power_supply/BAT0/charge_control_end_threshold
-          if [ -f "$f" ]; then
-            echo 80 > "$f"
-            chgrp wheel "$f"
-            chmod 664 "$f"
-          fi
-        '';
-      };
-    };
-  };
-
-  time = {
-    timeZone = "Europe/Copenhagen";
-    hardwareClockInLocalTime = true;
-  };
+  time.timeZone = "Europe/Copenhagen";
 
   # Select internationalisation properties.
   i18n = {
@@ -229,20 +197,8 @@
     gvfs.enable = true;
     udisks2.enable = true; # used for USB devices
     blueman.enable = true;
-    fprintd.enable = true;
     pulseaudio.enable = false;
     printing.enable = true;
-    # Low-battery protection: without upower nothing acts on battery level, so
-    # the laptop runs until the hardware cutoff and fully drains the battery.
-    # PowerOff is the safe default; hosts with working resume override it to
-    # Hibernate (see hosts/thinkpad/default.nix).
-    upower = {
-      enable = true;
-      percentageLow = 15;
-      percentageCritical = 7;
-      percentageAction = 5;
-      criticalPowerAction = lib.mkDefault "PowerOff";
-    };
     # onedrive = {
     # 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
     # 	monitor = true;
@@ -284,56 +240,16 @@
     };
   };
 
-  services.pipewire =
-    let
-      sink = dev: "alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__${dev}__sink";
-      source = dev: "alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__${dev}__source";
-      setProps = nodeName: props: {
-        matches = [{ "node.name" = nodeName; }];
-        actions.update-props = props;
-      };
-    in
-    {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      #jack.enable = true;
-
-      # ALSA names every node after the chipset, which says nothing useful.
-      wireplumber.extraConfig."10-friendly-names" = {
-        "monitor.alsa.rules" =
-          let
-            rename = nodeName: description: setProps nodeName { "node.description" = description; };
-          in
-          [
-            (rename (sink "Speaker") "Laptop Speakers")
-            (rename (sink "HDMI1") "External Display 1")
-            (rename (sink "HDMI2") "External Display 2")
-            (rename (sink "HDMI3") "External Display 3")
-            # Mic1 is the DMIC array, Mic2 the analog jack, per the HDA UCM.
-            (rename (source "Mic1") "Built-in Microphone")
-            (rename (source "Mic2") "Headset Microphone")
-          ];
-      };
-
-      # Every UCM profile carries the HDMI sinks, so drop them outright.
-      wireplumber.extraConfig."20-hide-hdmi-sinks" = {
-        "monitor.alsa.rules" = map
-          (dev: setProps (sink dev) { "node.disabled" = true; })
-          [ "HDMI1" "HDMI2" "HDMI3" ];
-      };
-
-      # Defaults by priority alone, with the built-ins below any headset.
-      wireplumber.extraConfig."30-builtins-last" = {
-        "monitor.alsa.rules" = [
-          (setProps (sink "Speaker") { "priority.session" = 900; })
-          (setProps (source "Mic1") { "priority.session" = 900; })
-        ];
-        "wireplumber.settings"."node.restore-default-targets" = false;
-      };
-    };
+  # The wireplumber node renames are keyed on the thinkpad's Intel HDA node
+  # names and live in hosts/thinkpad/default.nix.
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+  };
 
   xdg.portal = {
     enable = true;
