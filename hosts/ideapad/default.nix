@@ -22,11 +22,13 @@
   services = {
     xserver = {
       enable = true;
-      videoDrivers = [ "amdgpu" ];
+      # DisplayLink support for the docking station; displaylink must come first
+      videoDrivers = [ "displaylink" "amdgpu" ];
     };
   };
 
   environment.systemPackages = with pkgs; [
+    displaylink # DisplayLink driver for docking station
     melonDS
     lutris
     wine

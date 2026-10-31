@@ -85,7 +85,6 @@
       # libsForQt5.breeze-grub
       wget
       google-cloud-sdk
-      displaylink # DisplayLink driver for docking station
       kdePackages.kolourpaint
       jq # jq is a command-line JSON processor, we use it in our monitor script
       kdePackages.merkuro
@@ -244,8 +243,6 @@
       percentageAction = 5;
       criticalPowerAction = lib.mkDefault "PowerOff";
     };
-    # DisplayLink support for docking station
-    xserver.videoDrivers = [ "displaylink" "modesetting" ];
     # onedrive = {
     # 	enable = true; # Set this to false and uncomment when we want to enable it (maybe)
     # 	monitor = true;
